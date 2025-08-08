@@ -24,22 +24,8 @@ body {
 }
 
 .header .search-bar {
-    width: 85%;
-    padding: 0.5rem;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    transition: 225ms ease;
-}
-
-.header .search-bar:hover {
-    border-color: #2a2cfe;
-}
-
-.header .search-bar:focus {
-    border-color: #2a2cfe;
-    box-shadow: 0 0 5px rgba(42, 44, 254, 0.5);
+    width: 92%!important;
+    margin-bottom: 0!important;
 }
 
 .header .user-menu {
@@ -139,6 +125,54 @@ a:hover {
 
 a:hover::after {
     transform: scaleX(1);
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 1rem;
+    transition: 225ms ease;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+textarea:hover {
+    border-color: #2a2cfe;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: #2a2cfe;
+    box-shadow: 0 0 5px rgba(42, 44, 254, 0.5);
+}
+
+input[type="submit"] {
+    background-color: #2a2cfe;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 225ms ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #575afd;
 }
 
 /* In Content */

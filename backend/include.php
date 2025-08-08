@@ -43,6 +43,7 @@ function routing() {
 }
 
 function getHtml($args) {
+    // converter
     $conv_config = [
         'commonmark' => [
             'unordered_list_markers' => ['-', '+'],
@@ -51,8 +52,11 @@ function getHtml($args) {
         'allow_unsafe_links' => false,
         'max_nesting_level' => PHP_INT_MAX,
     ];
-
     $converter = new CommonMarkConverter($conv_config);
+    // args[0]
+    $split = explode(":", $args[0]);
+    $namespace = strtolower($split[0]);
+    $filename = strtolower($split[1]);
 
     // own rules
     $args[1] = preg_replace_callback('/{{\s*([A-Za-z0-9_]+)\s*}}/', function ($matches) {
@@ -66,12 +70,19 @@ function getHtml($args) {
     }, $args[1]);
     // parse
     $dirty_html = $converter->convertToHtml($args[1]);
-
     $config = HTMLPurifier_Config::createDefault();
+    $config->set('HTML.DefinitionID', 'custom-def-1');
+    $config->set('HTML.DefinitionRev', 5);
     // Configuration for HTMLPurifier
-    $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
+    if ($namespace == "special") {
+        $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title,input.name,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
+    }
+    else {
+        $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title');
+    }
     $config->set('HTML.ForbiddenElements', ['b']);
-    $config->set('HTML.AllowedAttributes', '*.class,*.style, a.href, a.title, img.src, img.alt, img.title');
     $config->set('CSS.AllowedProperties', [
         'color',
         'background-color',
@@ -81,8 +92,28 @@ function getHtml($args) {
         'border'
     ]);
     $config->set('CSS.AllowImportant', false); // no !important
-    $purifier = new HTMLPurifier($config);
 
+    if (($def = $config->maybeGetRawHTMLDefinition()) && $namespace == "special") {
+        $def->addElement('input', 'Inline', 'Empty', 'Common', [
+            'type'  => 'Text',
+            'name'  => 'Text',
+            'value' => 'Text',
+        ]);
+        $def->addAttribute('input', 'placeholder', 'Text');
+        $def->addElement('button', 'Inline', 'Flow', 'Common', [
+            'type' => 'Text',
+            'name' => 'Text'
+        ]);
+        $def->addElement('textarea', 'Inline', 'Flow', 'Common', [
+            'name' => 'Text'
+        ]);
+        $def->addElement('form', 'Block', 'Flow', 'Common', [
+            'action*' => 'URI',
+            'method'  => 'Text'
+        ]);
+    }
+
+    $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($dirty_html);
 
     echo $clean_html;
