@@ -5,6 +5,11 @@ use League\CommonMark\CommonMarkConverter;
 
 function getPageContents($page) {
     $template = file_get_contents($page);
+    if (isset($_SESSION["username"])) {
+        $template = str_replace("{loginstatus}", "loggedin", $template);
+    } else {
+        $template = str_replace("{loginstatus}", "loggedout", $template);
+    }
     $template = preg_replace_callback(
         '/<!--PLACEHOLDER:([a-zA-Z0-9_\-\/\.]+)-->/',
         function ($matches) {
@@ -34,9 +39,8 @@ function routing() {
     $filepath = "pages/$namespace/$filename.md";
 
     $text = @file_get_contents($filepath) ?? null;
-    if ($text === null) {
-        header("HTTP/1.0 404 Not Found");
-        exit;
+    if ($text === false || $text === null) {
+        throw new Exception("404 Not Found");
     }
 
     return [$route, $text];
@@ -72,11 +76,11 @@ function getHtml($args) {
     $dirty_html = $converter->convertToHtml($args[1]);
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 5);
+    $config->set('HTML.DefinitionRev', 6);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea');
-        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title,input.name,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
     }
     else {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
@@ -119,7 +123,7 @@ function getHtml($args) {
     echo $clean_html;
 }
 
-function getTitle($args) {
+function getJSON($args) {
     $split = explode(":", $args[0]);
     $namespace = strtolower($split[0]);
     $filename = strtolower($split[1]);
@@ -131,11 +135,29 @@ function getTitle($args) {
         return "Untitled Page";
     }
 
+    return $text;
+}
+
+function getTitle($text, $args) {
     $data = json_decode($text, true);
     if (isset($data['title'])) {
         return $data['title'];
     } else {
         return "Untitled Page";
     }
+}
+
+function noControls($text) {
+    $data = json_decode($text, true);
+    if (isset($data['noControls']) && $data['noControls'] === true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getProtectedStatus($text) {
+    $data = json_decode($text, true);
+    return $data['protect'] ?? "none";
 }
 ?>

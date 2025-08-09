@@ -1,5 +1,5 @@
 * {
-    font-family: 'Parkinsans', sans-serif;
+    font-family: "Parkinsans", sans-serif;
     box-sizing: border-box;
 }
 
@@ -24,8 +24,8 @@ body {
 }
 
 .header .search-bar {
-    width: 92%!important;
-    margin-bottom: 0!important;
+    width: 92% !important;
+    margin-bottom: 0 !important;
 }
 
 .header .user-menu {
@@ -179,8 +179,12 @@ input[type="submit"]:hover {
 .page_title {
     font-size: 2rem;
     margin-bottom: 0.8rem;
-    
-    background-image: linear-gradient(to right, rgba(42, 44, 254, 0.5) 0%, rgba(42, 44, 254, 0.5) 100%);
+
+    background-image: linear-gradient(
+        to right,
+        rgba(42, 44, 254, 0.5) 0%,
+        rgba(42, 44, 254, 0.5) 100%
+    );
     background-repeat: no-repeat;
     background-size: 100% 4px;
     background-position: left 100%;
@@ -212,7 +216,11 @@ input[type="submit"]:hover {
 }
 
 .titlebar span.active {
-    background-image: linear-gradient(to right, rgba(42, 44, 254, 0.5) 0%, rgba(42, 44, 254, 0.5) 100%);
+    background-image: linear-gradient(
+        to right,
+        rgba(42, 44, 254, 0.5) 0%,
+        rgba(42, 44, 254, 0.5) 100%
+    );
     background-repeat: no-repeat;
     background-size: 100% 3px;
     background-position: left 100%;
