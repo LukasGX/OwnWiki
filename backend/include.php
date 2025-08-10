@@ -46,7 +46,7 @@ function routing() {
     return [$route, $text];
 }
 
-function getHtml($args) {
+function getHtml($args, $user) {
     // converter
     $conv_config = [
         'commonmark' => [
@@ -57,21 +57,61 @@ function getHtml($args) {
         'max_nesting_level' => PHP_INT_MAX,
     ];
     $converter = new CommonMarkConverter($conv_config);
+
     // args[0]
     $split = explode(":", $args[0]);
     $namespace = strtolower($split[0]);
     $filename = strtolower($split[1]);
 
-    // own rules
-    $args[1] = preg_replace_callback('/{{\s*([A-Za-z0-9_]+)\s*}}/', function ($matches) {
-        $templateName = $matches[1];
-        $templatePath = 'pages/Template/' . strtolower($templateName) . '.md';
-        if (file_exists($templatePath)) {
-            return file_get_contents($templatePath);
-        } else {
-            return 'File not found: ' . htmlspecialchars($templatePath);
-        }
-    }, $args[1]);
+    // 1. Define Magic Words
+    $magicWords = [
+        'NOINDEX' => function() {
+            global $generateTOC;
+            $generateTOC = false;
+            return '';
+        },
+        'ASKEDSITE' => function() {
+            $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
+            return $tried;
+        },
+        'ASKCREATE' => function() {
+            global $user;
+            $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
+            $namespace = strtolower(explode(":", $tried)[0]);
+            if ($namespace == "" || $namespace == "special" || $user->hasPermission("createpage") === false) {
+                return '';
+            }
+            return '<a href="?f=special:create&t=' . urlencode($tried) . '">Seite erstellen</a>';
+        },
+    ];
+
+    // 2. Replace Templates
+    $args[1] = preg_replace_callback(
+        '/{{\s*([A-Za-z0-9_]+)\s*}}/',
+        function ($matches) {
+            $templateName = $matches[1];
+            $templatePath = 'pages/Template/' . strtolower($templateName) . '.md';
+            if (file_exists($templatePath)) {
+                return file_get_contents($templatePath);
+            } else {
+                return 'File not found: ' . htmlspecialchars($templatePath);
+            }
+        },
+        $args[1]
+    );
+
+    // 3. Replace Magic Words
+    $args[1] = preg_replace_callback(
+        '/\[\[\s*([A-Z0-9_]+)\s*\]\]/',
+        function ($matches) use ($magicWords) {
+            $word = strtoupper($matches[1]); 
+            if (isset($magicWords[$word])) {
+                return $magicWords[$word]();  
+            }
+            return '';
+        },
+        $args[1]
+    );
     // parse
     $dirty_html = $converter->convertToHtml($args[1]);
     $config = HTMLPurifier_Config::createDefault();

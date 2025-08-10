@@ -2,12 +2,15 @@
 session_start();
 include_once("backend/include.php");
 include_once("conf-glob/html-titlebar.php");
+
+$f = isset($_GET["f"]) ? htmlspecialchars(strip_tags($_GET["f"])) : "";
+
 try {
     $routingData = routing();
     $json = getJSON($routingData);
 }
 catch (Exception $e) {
-    header("Location: ?f=special:404");
+    header("Location: ?f=special:404&t=$f");
     exit;
 }
 
@@ -25,9 +28,6 @@ if (isset($_SESSION["username"])) {
 else {
     $user = new User("", "", "", "", "1");
 }
-
-echo $_SESSION["role"] . ": ";
-echo $user->hasPermission("read") === true ? "JA" : "NEIN";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +45,7 @@ echo $user->hasPermission("read") === true ? "JA" : "NEIN";
         <div class="content">
             <h1 class="page_title"><?php echo getTitle($json, $routingData); ?></h1>
             <?php if (!noControls($json)) echo getTitleBar($user, getProtectedStatus($json)); ?>
-            <?php echo getHtml($routingData); ?>
+            <?php echo getHtml($routingData, $user); ?>
         </div>
     </div>
 </body>
