@@ -1,19 +1,50 @@
 <?php
 use League\CommonMark\CommonMarkConverter;
 
-function getPageContents($page) {
+function getPageContents($page, $user) {
     $template = file_get_contents($page);
     if (isset($_SESSION["username"])) {
         $template = str_replace("{loginstatus}", "loggedin", $template);
     } else {
         $template = str_replace("{loginstatus}", "loggedout", $template);
     }
+
+    if ($user->getRole() == "5") {
+        $template = str_replace("{isAdmin}", "admin", $template);
+    } else {
+        $template = str_replace("{isAdmin}", "noadmin", $template);
+    }
+
     $template = preg_replace_callback(
         '/<!--PLACEHOLDER:([a-zA-Z0-9_\-\/\.]+)-->/',
         function ($matches) {
             $filePath = $matches[1];
             if (is_readable($filePath)) {
-                return file_get_contents($filePath);
+                $content = file_get_contents($filePath);
+
+                $magicWords = [
+                    'TITLE' => function() {
+                        $f = isset($_GET["f"]) ? htmlspecialchars(strip_tags($_GET["f"])) : "";
+                        return $f;
+                    },
+                    'USERNAME' => function() {
+                        return isset($_SESSION["username"]) ? htmlspecialchars(strip_tags($_SESSION["username"])) : "";
+                    },
+                ];
+
+                $content = preg_replace_callback(
+                    '/\[\[\s*([A-Z0-9_]+)\s*\]\]/',
+                    function ($matches) use ($magicWords) {
+                        $word = strtoupper($matches[1]); 
+                        if (isset($magicWords[$word])) {
+                            return $magicWords[$word]();  
+                        }
+                        return '';
+                    },
+                    $content
+                );
+
+                return $content;
             } else {
                 return "<!-- could not load $filePath -->";
             }

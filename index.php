@@ -58,12 +58,12 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Own wiki</title>
 
-    <?php echo getPageContents("conf-glob/html-include.html"); ?>
+    <?php echo getPageContents("conf-glob/html-include.html", $user); ?>
 </head>
 <body>
-    <?php echo getPageContents("conf-glob/html-head.html"); ?>
+    <?php echo getPageContents("conf-glob/html-head.html", $user); ?>
     <div class="msplit">
-        <?php echo getPageContents("conf-glob/html-side.html"); ?>
+        <?php echo getPageContents("conf-glob/html-side.html", $user); ?>
         <div class="content">
             <h1 class="page_title"><?php echo getTitle($json, $routingData); ?></h1>
             <?php if (!noControls($json)) echo getTitleBar($user, getProtectedStatus($json)); ?>
