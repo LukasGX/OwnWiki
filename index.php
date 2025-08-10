@@ -1,7 +1,11 @@
 <?php
 session_start();
+
+require 'vendor/autoload.php';
 include_once("backend/include.php");
 include_once("conf-glob/html-titlebar.php");
+include_once("backend/user.php");
+include_once("backend/dbc.php");
 
 $f = isset($_GET["f"]) ? htmlspecialchars(strip_tags($_GET["f"])) : "";
 
@@ -16,13 +20,31 @@ catch (Exception $e) {
 
 // gen user object
 if (isset($_SESSION["username"])) {
-    include_once("backend/user.php");
+    $username = htmlspecialchars(strip_tags($_SESSION["username"]));
+    $firstname = "";
+    $lastname = "";
+    $email = "";
+    $role = "2"; // default role
+
+    $sql = $conn->prepare("SELECT firstname, lastname, email, `role` FROM users WHERE username = ?");
+    $sql->bind_param("s", $username);
+    $sql->execute();
+    $result = $sql->get_result();
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $firstname = $row["firstname"];
+            $lastname = $row["lastname"];
+            $email = $row["email"];
+            $role = $row["role"];
+        }
+    }
+
     $user = new User(
-        $_SESSION["username"],
-        $_SESSION["firstname"] ?? "",
-        $_SESSION["lastname"] ?? "",
-        $_SESSION["email"] ?? "",
-        $_SESSION["role"] ?? "2"
+        $username,
+        $firstname,
+        $lastname,
+        $email,
+        $role
     );
 }
 else {
@@ -48,5 +70,7 @@ else {
             <?php echo getHtml($routingData, $user); ?>
         </div>
     </div>
+    
+    <script src="js/codehighlight.js"></script>
 </body>
 </html>

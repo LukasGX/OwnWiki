@@ -1,6 +1,4 @@
 <?php
-require 'vendor/autoload.php';
-
 use League\CommonMark\CommonMarkConverter;
 
 function getPageContents($page) {
@@ -160,7 +158,7 @@ function getHtml($args, $user) {
     $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($dirty_html);
 
-    echo $clean_html;
+    return $clean_html;
 }
 
 function getJSON($args) {

@@ -4,5 +4,5 @@ fonts/Parkinsans/
 fonts/Roboto/
 fonts/SourceSans3/
 vendor/
-composer.*
 font-awesome/
+node-modules/
