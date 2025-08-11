@@ -75,6 +75,40 @@ function routing() {
     return [$route, $text];
 }
 
+function genTOC($md) {
+    preg_match_all('/^(#{2,3})\s+(.*)$/m', $md, $matches, PREG_SET_ORDER);
+
+    $result = [];
+    $currentH2 = null;
+
+    foreach ($matches as $match) {
+        $level = strlen($match[1]);
+        $text = trim($match[2]);
+
+        if ($level === 2) {
+            $currentH2 = $text;
+            $result[$currentH2] = [];
+        } elseif ($level === 3 && $currentH2 !== null) {
+            $result[$currentH2][] = $text;
+        }
+    }
+    $toc = "<div class='toc'><p class='toc-h'>Inhaltsverzeichnis</p><ul>";
+    foreach ($result as $h2 => $h3s) {
+        $toc .= "<li><a href='#" . htmlspecialchars(strtolower(str_replace(' ', '-', $h2))) . "'>" . htmlspecialchars($h2) . "</a>";
+        if (!empty($h3s)) {
+            $toc .= "<ul>";
+            foreach ($h3s as $h3) {
+                $toc .= "<li><a href='#" . htmlspecialchars(strtolower(str_replace(' ', '-', $h3))) . "'>" . htmlspecialchars($h3) . "</a></li>";
+            }
+            $toc .= "</ul>";
+        }
+        $toc .= "</li>";
+    }
+    $toc .= "</ul></div>";
+
+    return $toc;
+}
+
 function getHtml($args, $user) {
     // converter
     $conv_config = [
@@ -87,15 +121,17 @@ function getHtml($args, $user) {
     ];
     $converter = new CommonMarkConverter($conv_config);
 
+    // config for functions
+    $generateTOC = true;
+
     // args[0]
     $split = explode(":", $args[0]);
     $namespace = strtolower($split[0]);
     $filename = strtolower($split[1]);
 
-    // 1. Define Magic Words
+    // Define Magic Words
     $magicWords = [
-        'NOINDEX' => function() {
-            global $generateTOC;
+        'NOTOC' => function() use (&$generateTOC) {
             $generateTOC = false;
             return '';
         },
@@ -103,8 +139,21 @@ function getHtml($args, $user) {
             $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
             return $tried;
         },
-        'ASKCREATE' => function() {
-            global $user;
+        'VIOLATEDPERMISSION' => function() {
+            $permission = isset($_GET["r"]) ? htmlspecialchars(strip_tags($_GET["r"])) : "";
+            return $permission;
+        },
+        'RANDOMPAGE' => function() {
+            $files = glob("pages/article/*.md");
+            if (empty($files)) {
+                return '';
+            }
+            $randomFile = $files[array_rand($files)];
+            $randomFile = str_replace("pages/article/", "", $randomFile);
+            $randomFile = str_replace(".md", "", $randomFile);
+            return $randomFile;
+        },
+        'ASKCREATE' => function() use (&$user) {
             $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
             $namespace = strtolower(explode(":", $tried)[0]);
             if ($namespace == "" || $namespace == "special" || $user->hasPermission("createpage") === false) {
@@ -112,9 +161,75 @@ function getHtml($args, $user) {
             }
             return '<a href="?f=special:create&t=' . urlencode($tried) . '">Seite erstellen</a>';
         },
+        'LISTSPECIALPAGES' => function() use (&$user) {
+            $gen = "";
+            $files = glob("pages/special/*.md");
+            if (empty($files)) {
+                return '';
+            }
+            foreach ($files as $file) {
+                $filename = basename($file, ".md");
+
+                $config = @file_get_contents("pages/special/$filename.json");
+                if ($config !== false) {
+                    $data = json_decode($config, true);
+
+                    $description = "";
+                    $title = "";
+
+                    if (isset($data['excludeFromSpecialPagesList']) && $data['excludeFromSpecialPagesList'] === true) {
+                        continue;
+                    }
+                    if (isset($data['description']) && !empty($data['description'])) {
+                        $description = $data['description'];
+                    }
+                    else {
+                        $description = "Keine Beschreibung verfügbar.";
+                    }
+
+                    if (isset($data['title']) && !empty($data['title'])) {
+                        $title = $data["title"];
+                    }
+                    else {
+                        $title = $filename;
+                    }
+
+                    if (isset($data['accessPermission']) && !empty($data['accessPermission'])) {
+                        if ($user->hasPermission($data['accessPermission'])) {
+                            $permission = "<span class='hasPermission'><i class='fas fa-check'></i> " . $data["accessPermission"] . "</span>";
+                        }
+                        else {
+                            $permission = "<span class='hasNotPermission'><i class='fas fa-xmark'></i> " . $data["accessPermission"] . "</span>";
+                        }
+                    }
+                    else {
+                        if ($user->hasPermission('read')) {
+                            $permission = "<span class='hasPermission'><i class='fas fa-check'></i> read</span>";
+                        }
+                        else {
+                            $permission = "<span class='hasNotPermission'><i class='fas fa-xmark'></i> read</span>";
+                        }
+                    }
+                }
+                else {
+                    $description = "Keine Beschreibung verfügbar.";
+                    $title = $filename;
+
+                    if ($user->hasPermission('read')) {
+                        $permission = "<span class='hasPermission'><i class='fas fa-check'></i> read</span>";
+                    }
+                    else {
+                        $permission = "<span class='hasNotPermission'><i class='fas fa-xmark'></i> read</span>";
+                    }
+                }
+
+                $gen .= '<div class="specialpage"><a href="?f=special:' . htmlspecialchars($filename) . '">' . htmlspecialchars($title) . '</a><span>' . $description . '</span>' . $permission . '</div>';
+            }
+            return '<ul>' . $gen . '</ul>';
+        },
     ];
 
-    // 2. Replace Templates
+    // Replace Templates
     $args[1] = preg_replace_callback(
         '/{{\s*([A-Za-z0-9_]+)\s*}}/',
         function ($matches) {
@@ -129,7 +244,7 @@ function getHtml($args, $user) {
         $args[1]
     );
 
-    // 3. Replace Magic Words
+    // Replace Magic Words
     $args[1] = preg_replace_callback(
         '/\[\[\s*([A-Z0-9_]+)\s*\]\]/',
         function ($matches) use ($magicWords) {
@@ -141,20 +256,40 @@ function getHtml($args, $user) {
         },
         $args[1]
     );
+
+    // check for redirect
+    if (preg_match('/^\$REDIRECT:([A-Za-z0-9_]+)\$/', $args[1], $matches)) {
+        $redirectPage = strtolower($matches[1]);
+        header("Location: ?f=article:$redirectPage");
+        exit;
+    }
+
     // parse
     $dirty_html = $converter->convertToHtml($args[1]);
+    // Add id attribute directly to h2 and h3 in the HTML output
+    $dirty_html = preg_replace_callback(
+        '/<(h[23])>(.*?)<\/\1>/i',
+        function ($matches) {
+            $tag = $matches[1];
+            $content = trim(strip_tags($matches[2]));
+            $id = htmlspecialchars(strtolower(str_replace(' ', '-', $content)));
+            return '<' . $tag . ' id="' . $id . '">' . $matches[2] . '</' . $tag . '>';
+        },
+        $dirty_html
+    );
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 6);
+    $config->set('HTML.DefinitionRev', 10);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea');
-        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
     }
     else {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
-        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,img.src,img.alt,img.title');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title');
     }
+    $config->set('Attr.EnableID', true);
     $config->set('HTML.ForbiddenElements', ['b']);
     $config->set('CSS.AllowedProperties', [
         'color',
@@ -189,7 +324,9 @@ function getHtml($args, $user) {
     $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($dirty_html);
 
-    return $clean_html;
+    $toc = $generateTOC == true ? genTOC($args[1]) : "";
+
+    return $toc . $clean_html;
 }
 
 function getJSON($args) {
@@ -228,5 +365,10 @@ function noControls($text) {
 function getProtectedStatus($text) {
     $data = json_decode($text, true);
     return $data['protect'] ?? "none";
+}
+
+function getAccessPermission($text) {
+    $data = json_decode($text, true);
+    return $data['accessPermission'] ?? "read";
 }
 ?>

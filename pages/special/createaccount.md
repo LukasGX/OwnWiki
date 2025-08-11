@@ -1,3 +1,5 @@
+[[NOTOC]]
+
 <form action="backend/createAccount.php" method="post">
     <input type="text" name="username" placeholder="Benutzername">
     <input type="text" name="firstname" placeholder="Vorname">

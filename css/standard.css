@@ -85,16 +85,22 @@ body {
 
 /* Content */
 .content {
-    padding: 0.6rem 1.6rem;
+    padding: 0.6rem 1.6rem !important;
     width: 100%;
     height: 100vh;
+}
+
+.content > :last-child::after {
+    content: "";
+    display: block;
+    height: 1.5rem;
 }
 
 /* MSplit */
 .msplit {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: max-content;
 }
 
 /* Links */
@@ -262,4 +268,39 @@ button:hover {
 .error {
     color: red;
     font-weight: bold;
+}
+
+.toc {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.toc-h {
+    font-weight: bold;
+    margin: 0.5rem 0.3rem;
+    font-size: 1.4rem;
+}
+
+.specialpage {
+    width: 100%;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.specialpage span {
+    display: block;
+}
+
+.hasPermission {
+    color: #1d871a;
+}
+
+.hasNotPermission {
+    color: #c70000;
 }

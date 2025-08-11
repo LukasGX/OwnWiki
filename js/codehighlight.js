@@ -52,4 +52,6 @@ saveButton.addEventListener("click", async function () {
     } else if (data.success) {
         alert("Code saved successfully!");
     }
+
+    window.location.href = `?f=${encodeURIComponent(titleFromGet)}`;
 });

@@ -31,7 +31,6 @@ file_put_contents($filepathMD, $text);
 
 file_put_contents($filepathJSON, json_encode([
     "title" => $filename,
-    "content" => $text,
     "noControls" => false,
     "protected" => "none"
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));

@@ -1,3 +1,5 @@
+[[NOTOC]]
+
 <div class="code-editor">
     <button class="preview-button">Vorschau</button>
     <textarea class="code"></textarea>

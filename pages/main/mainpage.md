@@ -1,1 +1,3 @@
+[[NOTOC]]
+
 ## Willkommen bei OwnWiki!

@@ -1,0 +1,7 @@
+{
+    "title": "Spezialseiten",
+    "noControls": true,
+    "accessPermission": "read",
+    "protected": "none",
+    "excludeFromSpecialPagesList": true
+}

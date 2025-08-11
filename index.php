@@ -50,6 +50,11 @@ if (isset($_SESSION["username"])) {
 else {
     $user = new User("", "", "", "", "1");
 }
+
+if (!$user->hasPermission(getAccessPermission($json))) {
+    header("Location: ?f=special:403&t=$f&r=" . urlencode(getAccessPermission($json)));
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

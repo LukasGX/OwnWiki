@@ -1,1 +1,2 @@
+[[NOTOC]]
 Schnelllöschantrag

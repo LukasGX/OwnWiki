@@ -1,5 +1,6 @@
 {
-    "title": "404 - Seite nicht gefunden",
+    "title": "Kein Zugriff",
     "noControls": true,
+    "protected": "none",
     "excludeFromSpecialPagesList": true
 }
