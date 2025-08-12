@@ -28,3 +28,8 @@ Wenn du Ideen hast, Fehler findest oder dich an der Entwicklung beteiligen möch
 3. Pull Request stellen
 
 Gemeinsam können wir OwnWiki zu einem flexiblen, schnellen und einfach zu nutzenden Wiki-System ausbauen.
+
+## Lizenz
+Dieses Projekt steht unter der **GNU General Public License Version 3 (GPL-3.0)**.  
+Du darfst den Quellcode verwenden, verändern und weiterverbreiten – auch kommerziell – solange **abgeleitete Werke unter derselben Lizenz** veröffentlicht werden und der ursprüngliche Autor genannt wird.  
+Der vollständige Lizenztext ist in der Datei `LICENSE` im Repository enthalten.
