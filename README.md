@@ -1,10 +1,11 @@
 # OwnWiki
 
-**OwnWiki** ist ein leichtgewichtiges, dateibasiertes Wiki-System, das dir die volle Kontrolle über deine Inhalte gibt – ohne komplexe Datenbanken und mit einer klaren, modularen Struktur.  
+**OwnWiki** ist ein leichtgewichtiges, dateibasiertes Wiki-System, das dir die volle Kontrolle über deine Inhalte gibt – ohne riesige und unübersichtliche Datenbanken und mit einer klaren, modularen Struktur.  
 Es eignet sich perfekt für private Projekte, kleine Teams oder als Basis für eigene Ideen.
 
 ## Merkmale
 - **Dateibasiert** – alle Inhalte werden als Markdown- und JSON-Dateien gespeichert.
+- **Minimale Datenbank** - in der Datenbank wird nur ein Minimum an Daten gespeichert.
 - **Einfache Rollenverwaltung** – mit einem klaren Vererbungsprinzip für Berechtigungen.
 - **Spezialseiten** – z. B. für Login, Verwaltung oder individuelle Funktionen.
 - **Erweiterbar** – die Struktur ist offen für neue Module, Tools und Anpassungen.
