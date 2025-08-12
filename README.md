@@ -1,5 +1,7 @@
 # OwnWiki
 
+![License](https://img.shields.io/github/license/LukasGX/OwnWiki)
+
 **OwnWiki** ist ein leichtgewichtiges, dateibasiertes Wiki-System, das dir die volle Kontrolle über deine Inhalte gibt – ohne riesige und unübersichtliche Datenbanken und mit einer klaren, modularen Struktur.  
 Es eignet sich perfekt für private Projekte, kleine Teams oder als Basis für eigene Ideen.
 
