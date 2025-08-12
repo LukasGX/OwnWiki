@@ -304,3 +304,7 @@ button:hover {
 .hasNotPermission {
     color: #c70000;
 }
+
+.select2-container {
+    margin-bottom: 1rem !important;
+}

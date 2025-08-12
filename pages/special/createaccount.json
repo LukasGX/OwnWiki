@@ -1,5 +1,7 @@
 {
     "title": "Konto erstellen",
     "description": "Ein neues Benutzerkonto im Wiki erstellen",
-    "noControls": true
+    "noControls": true,
+    "accessPermission": "createaccount",
+    "protect": "superprotected"
 }

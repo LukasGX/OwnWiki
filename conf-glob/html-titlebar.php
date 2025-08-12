@@ -2,13 +2,14 @@
 @session_start();
 include_once(__DIR__ . "/../backend/user.php");
 function getTitleBar($user, $protectedStatus) {
-        $neededPermission = "edit";
+    $neededPermission = "edit";
     if ($protectedStatus === "semiprotected")
         $neededPermission = "editsemiprotected";
     else if ($protectedStatus === "protected")
         $neededPermission = "editprotected";
-    else 
-        $neededPermission = "edit";
+    else if ($protectedStatus === "superprotected")
+        $neededPermission = "editsuperprotected";
+
 
     $output = "";
 

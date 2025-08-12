@@ -151,7 +151,7 @@ function getHtml($args, $user) {
             $randomFile = $files[array_rand($files)];
             $randomFile = str_replace("pages/article/", "", $randomFile);
             $randomFile = str_replace(".md", "", $randomFile);
-            return $randomFile;
+            return "article:" . $randomFile;
         },
         'ASKCREATE' => function() use (&$user) {
             $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
@@ -258,9 +258,9 @@ function getHtml($args, $user) {
     );
 
     // check for redirect
-    if (preg_match('/^\$REDIRECT:([A-Za-z0-9_]+)\$/', $args[1], $matches)) {
+    if (preg_match('/^\$REDIRECT:([A-Za-z0-9:_-]+)\$/m', $args[1], $matches)) {
         $redirectPage = strtolower($matches[1]);
-        header("Location: ?f=article:$redirectPage");
+        header("Location: ?f=$redirectPage");
         exit;
     }
 
@@ -279,11 +279,11 @@ function getHtml($args, $user) {
     );
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 10);
+    $config->set('HTML.DefinitionRev', 15);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
-        $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea');
-        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method');
+        $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea,select,option');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method,select.name,option.value');
     }
     else {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
@@ -305,6 +305,12 @@ function getHtml($args, $user) {
         $def->addElement('input', 'Inline', 'Empty', 'Common', [
             'type'  => 'Text',
             'name'  => 'Text',
+            'value' => 'Text',
+        ]);
+        $def->addElement('select', 'Inline', 'Empty', 'Common', [
+            'name'  => 'Text',
+        ]);
+        $def->addElement('option', 'Inline', 'Empty', 'Common', [
             'value' => 'Text',
         ]);
         $def->addAttribute('input', 'placeholder', 'Text');

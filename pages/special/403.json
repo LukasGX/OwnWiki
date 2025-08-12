@@ -1,6 +1,6 @@
 {
     "title": "Kein Zugriff",
     "noControls": true,
-    "protected": "none",
+    "protect": "superprotected",
     "excludeFromSpecialPagesList": true
 }

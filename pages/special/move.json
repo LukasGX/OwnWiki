@@ -3,5 +3,5 @@
     "description": "Eine Seite im Wiki verschieben",
     "noControls": true,
     "accessPermission": "move",
-    "protected": "none"
+    "protect": "superprotected"
 }

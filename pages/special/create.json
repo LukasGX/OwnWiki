@@ -3,5 +3,5 @@
     "description": "Eine neue Seite im Wiki erstellen",
     "noControls": true,
     "accessPermission": "createpage",
-    "protected": "none"
+    "protect": "superprotected"
 }

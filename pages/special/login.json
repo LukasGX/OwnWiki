@@ -1,5 +1,6 @@
 {
     "title": "Anmelden",
     "description": "Im Wiki anmelden",
-    "noControls": true
+    "noControls": true,
+    "protect": "superprotected"
 }

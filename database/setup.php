@@ -77,7 +77,7 @@ $admin_privileges = [
 $encoded_admin_privileges = json_encode($admin_privileges);
 
 $interface_admin_privileges = [
-    "editinterface", "editsitecss", "editsitejs"
+    "editinterface", "editsitecss", "editsitejs", "editsuperprotected"
 ];
 $encoded_interface_admin_privileges = json_encode($interface_admin_privileges);
 
@@ -143,6 +143,7 @@ $insertion_commands = [
     "INSERT INTO user_rights (right_name, `description`, dependencies) VALUES ('bot', 'Be treated as an automated process', '[]')",
     "INSERT INTO user_rights (right_name, `description`, dependencies) VALUES ('ipblockbypass', 'Bypass ip blocks', '[]')",
     "INSERT INTO user_rights (right_name, `description`, dependencies) VALUES ('suppressredirect', 'Suppress the creation of redirects when moving a page', '[\"createpage\"]')",
+    "INSERT INTO user_rights (right_name, `description`, dependencies) VALUES ('editsuperprotected', 'Edit superprotected pages', '[\"edit\"]')",
     // roles
     "INSERT INTO roles (role_name, privileges) VALUES ('default', '" . $encoded_default_privileges . "')",
     "INSERT INTO roles (role_name, privileges) VALUES ('user', '" . $encoded_user_privileges . "')",
