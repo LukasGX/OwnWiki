@@ -109,6 +109,18 @@ function genTOC($md) {
     return $toc;
 }
 
+function editLogResults($row) {
+    $gen = "
+    <h2>Einträge aus dem Barbeitungslogbuch</h2>
+    <div class='log'>
+        Benutzer: " . $row["userId"] . "<br />
+        Seite: <a href='?f=" . $row["target"] . "'>" . $row["target"] . "</a><br />
+        Neue Version: " . $row["newVersionId"] . "
+    </div>
+    ";
+    return $gen;
+}
+
 function getHtml($args, $user) {
     // converter
     $conv_config = [
@@ -227,6 +239,77 @@ function getHtml($args, $user) {
             }
             return '<ul>' . $gen . '</ul>';
         },
+        'LOGSMENU' => function() use (&$user) {
+            global $_GET;
+            $type = isset($_GET["type"]) ? htmlspecialchars(strip_tags($_GET["type"])) : "edit";
+
+            $editSelected = $type == "edit" ? "selected" : "";
+            $moveSelected = $type == "move" ? "selected" : "";
+
+            $menu = "
+            <h2>Logbücher ansehen</h2>
+            <form action='' method='get'>
+                <input type='hidden' name='f' value='special:logs'>
+                <select name='type'>
+                    <option value='edit' " . $editSelected . ">Bearbeitungslogbuch</option>
+                    <option value='move' " . $moveSelected . ">Verschiebungslogbuch</option>
+                </select>
+                <input type='text' name='user' placeholder='Benutzer'>
+                <input type='text' name='page' placeholder='Seite'>
+                <input type='submit' value='Logbuch ansehen'>
+            </form>
+            ";
+
+            return '<div class="log-menu">' . $menu . '</div>';
+        },
+        'LOGS' => function() use (&$user) {
+            global $conn;
+            $type = htmlspecialchars(strip_tags($_GET["type"] ?? ""));
+            $username = htmlspecialchars(strip_tags($_GET["user"] ?? ""));
+            $pagename = htmlspecialchars(strip_tags($_GET["page"] ?? ""));
+
+            if (!isset($conn) || $conn === null) {
+                return "Database connection not initialized.";
+            }
+
+            $userId = null;
+            // get userId
+            $sql = $conn->prepare("SELECT id FROM users WHERE username=?");
+            $sql->bind_param("s", $username);
+            $sql->execute();
+            $result = $sql->get_result();
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $userId = $row["id"];
+                }
+            }
+            $sql->close();
+
+            // get logs
+            $types = [
+                "edit" => "edit_logs"
+            ];
+
+            $toReturn = ""; 
+
+            if (array_key_exists($type, $types)) {
+                $table = $types[$type];
+                $query = "SELECT * FROM `" . $conn->real_escape_string($table) . "`";
+                $sql = $conn->query($query);
+                if ($sql && $sql->num_rows > 0) {
+                    while($row = $sql->fetch_assoc()) {
+                        if ($type == "edit") $toReturn .= editLogResults($row);
+                    }
+                }
+                else {
+                    $toReturn = "No logs found";
+                }
+            }
+            else {
+                $toReturn = "Log type not found";
+            }
+            return '<div>' . $toReturn . '</div>';
+        }
     ];
 
     // Replace Templates
@@ -279,11 +362,11 @@ function getHtml($args, $user) {
     );
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 15);
+    $config->set('HTML.DefinitionRev', 19);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea,select,option');
-        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method,select.name,option.value');
+        $config->set('HTML.AllowedAttributes', '*.class,*.style,a.href,a.title,h2.id,h3.id,h4.id,h5.id,h6.id,img.src,img.alt,img.title,input.name,input.value,input.type,input.placeholder,button.type,button.name,textarea.name,form.action,form.method,select.name,option.value,option.selected');
     }
     else {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th');
@@ -307,11 +390,12 @@ function getHtml($args, $user) {
             'name'  => 'Text',
             'value' => 'Text',
         ]);
-        $def->addElement('select', 'Inline', 'Empty', 'Common', [
+        $def->addElement('select', 'Inline', 'Flow', 'Common', [
             'name'  => 'Text',
         ]);
-        $def->addElement('option', 'Inline', 'Empty', 'Common', [
+        $def->addElement('option', 'Inline', 'Flow', 'Common', [
             'value' => 'Text',
+            'selected' => 'Text'
         ]);
         $def->addAttribute('input', 'placeholder', 'Text');
         $def->addElement('button', 'Inline', 'Flow', 'Common', [

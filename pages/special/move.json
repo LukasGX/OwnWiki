@@ -1,7 +1,7 @@
 {
-    "title": "Seite verschieben",
-    "description": "Eine Seite im Wiki verschieben",
-    "noControls": true,
-    "accessPermission": "move",
-    "protect": "superprotected"
+	"title": "Seite verschieben",
+	"description": "Eine Seite im Wiki verschieben.",
+	"noControls": true,
+	"accessPermission": "move",
+	"protect": "superprotected"
 }

@@ -41,6 +41,12 @@ $creation_commands = [
         right_name VARCHAR(30) NOT NULL,
         `description` VARCHAR(300) NOT NULL,
         dependencies VARCHAR(300) DEFAULT NULL
+    )",
+    "CREATE TABLE IF NOT EXISTS edit_logs (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        userId VARCHAR(30) NOT NULL,
+        `target` VARCHAR(300) NOT NULL,
+        newVersionId VARCHAR(300) DEFAULT NULL
     )"
 ];
 
