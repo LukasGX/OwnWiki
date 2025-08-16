@@ -18,6 +18,41 @@
 -   [ ] Automatisierte Tests für Kernfunktionen einführen
 -   [ ] Seiten löschen
 -   [ ] Benutzerinformationen
+-   [ ] Admin-UI: Matrix (Rollen in Spalten, Rechte in Reihen)
+-   [ ] Export und Import
+-   [ ] Template-Parameter {{{abc}}} (Aufruf mit {{Vorlage|abc=xyz}})
+-   [ ] Zeitlich begrenzte Benutzerrollen
+-   [ ] Kategorie-System (evtl. mit $CATEGORY:ABC$)
+-   [ ] Codeblöcke mit Highlighting
+-   [ ] Verschachtelte Templates (max. Tiefe 1)
+-   [ ] Visuelle Versionsgeschichte
+-   [ ] Benachrichtigungssystem: Push, Email, Benachrichtigungscenter
+-   [ ] Mobile Ansicht
+-   [ ] **Native** mobile App (-> API)
+-   [ ] Suchfunktion (mit Autovervollständigung)
+-   [ ] Direkte Kommunikation (Chat mit MD)
+-   [ ] Automatisierte Prüfungen auf Vandalismus o.ä. (mit eigenen Regeln)
+-   [ ] SEO
+-   [ ] Mehrsprachlichkeit (Tabs)
+-   [ ] Missbrauchserkennung (Captcha?)
+-   [ ] **Plugins** (Zentrales Hook-System, über Benutzeroberfläche installieren)
+-   [ ] Link-Hover UI Vorschau
+-   [ ] Backup für alle Inhalte
+-   [ ] Markieren toter Links
+-   [ ] Erweiterte Suche mit Filtern
+-   [ ] Geplante Seiten
+-   [ ] Seitenübergreifende Module?
+-   [ ] **Statistiken**
+-   [ ] Automatische API-Dokumentation?
+-   [ ] Meldungsfunktion
+-   [ ] Admin-Dashboard
+-   [ ] Externe Inhalte als Vorschlag von Benutzern, von Admins bestätigt
+-   [ ] Benutzerseiten
+-   [ ] Badges für Benutzer (zentral verwaltet; rein informativ)
+-   [ ] Benutzer-Blocking
+-   [ ] Archivierung von Seiten (Nicht mehr in der Standard-Suche)
+-   [ ] Crashkurse (für verschiedene Rollen)
+-   [ ] Speicherung von Suchanfragen als Favoriten
 
 ---
 
