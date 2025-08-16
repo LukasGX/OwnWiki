@@ -71,7 +71,7 @@ if (!$user->hasPermission(getAccessPermission($json))) {
         <?php echo getPageContents("conf-glob/html-side.html", $user); ?>
         <div class="content">
             <h1 class="page_title"><?php echo getTitle($json, $routingData); ?></h1>
-            <?php if (!noControls($json)) echo getTitleBar($user, getProtectedStatus($json)); ?>
+            <?php if (!noControls($json)) echo getTitleBar($user, getProtectedStatus($json), $routingData[0]); ?>
             <?php echo getHtml($routingData, $user); ?>
         </div>
     </div>

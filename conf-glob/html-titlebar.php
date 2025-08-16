@@ -1,7 +1,7 @@
 <?php
 @session_start();
 include_once(__DIR__ . "/../backend/user.php");
-function getTitleBar($user, $protectedStatus) {
+function getTitleBar($user, $protectedStatus, $pagename) {
     $neededPermission = "edit";
     if ($protectedStatus === "semiprotected")
         $neededPermission = "editsemiprotected";
@@ -23,7 +23,7 @@ function getTitleBar($user, $protectedStatus) {
         <div class=\"group\">
     ";
     if ($user->hasPermission($neededPermission)) {
-        $output .= "<span class=\"element\"><i class=\"fas fa-pen\"></i> Bearbeiten</span>";
+        $output .= "<span class=\"element\"><a href='?f=special:edit&t=$pagename'><i class=\"fas fa-pen\"></i> Bearbeiten</a></span>";
     } else {
         $output .= "<span class=\"element\"><i class=\"fas fa-code\"></i> Quelltext anzeigen</span>";
     }

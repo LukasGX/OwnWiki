@@ -1,8 +1,8 @@
-**Lindau (Bodensee)** ([Alemannische Dialekte](https://de.wikipedia.org/wiki/Alemannische_Dialekte): _Lindau/Lindou_ oder _Linda/Linde_; früher _Lindau im Bodensee_) ist eine deutsche [Mittelstadt](https://de.wikipedia.org/wiki/Mittelstadt) im Südwesten von [Bayern](https://de.wikipedia.org/wiki/Bayern).
+**Lindau (Bodensee)** ist eine deutsche [Mittelstadt](https://de.wikipedia.org/wiki/Mittelstadt) im Südwesten von [Bayern](https://de.wikipedia.org/wiki/Bayern).
 
-Der historische Stadtkern der ehemaligen [Reichsstadt](https://de.wikipedia.org/wiki/Freie_und_Reichsst%C3%A4dte) mit der [Maximilianstraße (Lindau)](<https://de.wikipedia.org/wiki/Maximilianstra%C3%9Fe_(Lindau)>) im Zentrum liegt auf einer Insel im östlichen Teil des [Bodensees](https://de.wikipedia.org/wiki/Bodensee). Die Insel ist durch eine Straßenbrücke und den [Lindauer Eisenbahndamm](<https://de.wikipedia.org/wiki/Eisenbahndamm_(Lindau)>) mit den Stadtteilen auf dem Festland verbunden.
+Der historische Stadtkern der ehemaligen [Reichsstadt](https://de.wikipedia.org/wiki/Freie_und_Reichsst%C3%A4dte) mit der [Maximilianstraße (Lindau)]() im Zentrum liegt auf einer Insel im östlichen Teil des [Bodensees](https://de.wikipedia.org/wiki/Bodensee). Die Insel ist durch eine Straßenbrücke und den [Lindauer Eisenbahndamm]() mit den Stadtteilen auf dem Festland verbunden.
 
-Lindau ist eine [Große Kreisstadt](https://de.wikipedia.org/wiki/Gro%C3%9Fe_Kreisstadt) und der Verwaltungssitz des [Landkreis Lindau (Bodensee)](<https://de.wikipedia.org/wiki/Landkreis_Lindau_(Bodensee)>) im bayerischen [Regierungsbezirk Schwaben](<https://de.wikipedia.org/wiki/Schwaben_(Bayern)>). Wahrzeichen sind ein [Leuchtturm](https://de.wikipedia.org/wiki/Leuchtturm_Lindau) und eine [Löwenfigur](https://de.wikipedia.org/wiki/Bayerischer_L%C3%B6we#Geschichte) am Bodensee-Hafen. Die Stadt ist aufgrund ihrer Lage nahe [Österreich](https://de.wikipedia.org/wiki/%C3%96sterreich) und der [Schweiz](https://de.wikipedia.org/wiki/Schweiz) Ziel vieler Touristen. Seit den 1950er Jahren finden hier regelmäßige [Tagungen der Nobelpreisträger](https://de.wikipedia.org/wiki/Tagung_der_Nobelpreistr%C3%A4ger_in_Lindau) mit Nachwuchswissenschaftlern statt.
+Lindau ist eine [Große Kreisstadt](https://de.wikipedia.org/wiki/Gro%C3%9Fe_Kreisstadt) und der Verwaltungssitz des [Landkreis Lindau (Bodensee)]() im bayerischen [Regierungsbezirk Schwaben](). Wahrzeichen sind ein [Leuchtturm](https://de.wikipedia.org/wiki/Leuchtturm_Lindau) und eine [Löwenfigur](https://de.wikipedia.org/wiki/Bayerischer_L%C3%B6we#Geschichte) am Bodensee-Hafen. Die Stadt ist aufgrund ihrer Lage nahe [Österreich](https://de.wikipedia.org/wiki/%C3%96sterreich) und der [Schweiz](https://de.wikipedia.org/wiki/Schweiz) Ziel vieler Touristen. Seit den 1950er Jahren finden hier regelmäßige [Tagungen der Nobelpreisträger](https://de.wikipedia.org/wiki/Tagung_der_Nobelpreistr%C3%A4ger_in_Lindau) mit Nachwuchswissenschaftlern statt.
 
 ![Die Insel Lindau mit Altstadt, dahinter Bregenz und der Pfänder, im Hintergrund die Alpen](Datei:19.10.2020._Flug_mit_dem_Zeppelin_über_Lindau._14.jpg)
 ![Hafen und Stadt Lindau](Datei:19.10.2020._Flug_mit_dem_Zeppelin_über_Lindau._06.jpg)
@@ -13,11 +13,11 @@ Lindau ist eine [Große Kreisstadt](https://de.wikipedia.org/wiki/Gro%C3%9Fe_Kre
 
 ### Überblick
 
-Lindau ist die größte Stadt im [Argengau](https://de.wikipedia.org/wiki/Argengau). Die historische Altstadt liegt im Stadtteil [Lindau (Insel)](<https://de.wikipedia.org/wiki/Lindau_(Insel)>) mit einer Fläche von 0,69 km² und rund 2.830 Einwohnern. Um 1900 waren es noch 5.853 Einwohner. Die Insel bestand ehemals aus drei Teilinseln: Hintere Insel, Hauptinsel und Burg/Römerschanze. 1968 wurde der Parkplatz P5 auf der Hinteren Insel aufgeschüttet.
+Lindau ist die größte Stadt im [Argengau](https://de.wikipedia.org/wiki/Argengau). Die historische Altstadt liegt im Stadtteil [Lindau (Insel)]() mit einer Fläche von 0,69 km² und rund 2.830 Einwohnern. Um 1900 waren es noch 5.853 Einwohner. Die Insel bestand ehemals aus drei Teilinseln: Hintere Insel, Hauptinsel und Burg/Römerschanze.
 
-Zur Stadt gehört auch die kleine Insel [Hoy](<https://de.wikipedia.org/wiki/Hoy_(Bodensee)>), in den 1920er Jahren künstlich als Badeinsel angelegt. Etwa 40 m vor der „Hinteren Insel“ liegt der [Hexenstein](<https://de.wikipedia.org/wiki/Hexenstein_(Lindau)>), ein Gneisblock im flachen Wasser, der nicht mehr zum Stadtgebiet zählt.
+Zur Stadt gehört auch die kleine Insel [Hoy](), die in den 1920er Jahren künstlich als Badeinsel angelegt wurde. Etwa 40 m vor der „Hinteren Insel“ liegt der [Hexenstein](), ein Gneisblock im flachen Wasser, der nicht mehr zum Stadtgebiet zählt.
 
-Der Süden des Stadtgebiets ist ufernah dicht bebaut, im Norden liegen eingemeindete Dörfer, darunter Ober- und Unterreitnau. Die festländischen Gemeindeteile [Bad Schachen](https://de.wikipedia.org/wiki/Bad_Schachen), [Aeschach](https://de.wikipedia.org/wiki/Aeschach), [Reutin](<https://de.wikipedia.org/wiki/Reutin_(Lindau)>) und [Zech](<https://de.wikipedia.org/wiki/Zech_(Lindau)>) bieten zusammen über 12 km Bodenseeufer. Natürliche Ufer bestehen hier aus Schilfgürtel, Feuchtwiesen und aufsteigendem Festland.
+Der Süden des Stadtgebiets ist ufernah dicht bebaut, im Norden liegen eingemeindete Dörfer, darunter Ober- und Unterreitnau. Die festländischen Gemeindeteile [Bad Schachen](https://de.wikipedia.org/wiki/Bad_Schachen), [Aeschach](https://de.wikipedia.org/wiki/Aeschach), [Reutin]() und [Zech]() bieten zusammen über 12 km Bodenseeufer. Natürliche Ufer bestehen hier aus Schilfgürtel, Feuchtwiesen und aufsteigendem Festland.
 
 ### Geologie
 
@@ -33,7 +33,7 @@ Mit einem Jahresniederschlag von ca. 1420 mm gehört Lindau zu den niederschla
 
 ### Nachbargemeinden
 
-Lindau grenzt im Süden an den Bodensee, ansonsten an: [Wasserburg](<https://de.wikipedia.org/wiki/Wasserburg_(Bodensee)>), [Bodolz](https://de.wikipedia.org/wiki/Bodolz), [Kressbronn](https://de.wikipedia.org/wiki/Kressbronn_am_Bodensee), [Tettnang](https://de.wikipedia.org/wiki/Tettnang), [Achberg](https://de.wikipedia.org/wiki/Achberg), [Weißensberg](https://de.wikipedia.org/wiki/Wei%C3%9Fensberg), [Sigmarszell](https://de.wikipedia.org/wiki/Sigmarszell) und [Hörbranz](https://de.wikipedia.org/wiki/H%C3%B6rbranz) in Österreich.
+Lindau grenzt im Süden an den Bodensee, ansonsten an: [Wasserburg](), [Bodolz](https://de.wikipedia.org/wiki/Bodolz), [Kressbronn](https://de.wikipedia.org/wiki/Kressbronn_am_Bodensee), [Tettnang](https://de.wikipedia.org/wiki/Tettnang), [Achberg](https://de.wikipedia.org/wiki/Achberg), [Weißensberg](https://de.wikipedia.org/wiki/Wei%C3%9Fensberg), [Sigmarszell](https://de.wikipedia.org/wiki/Sigmarszell) und [Hörbranz](https://de.wikipedia.org/wiki/H%C3%B6rbranz) in Österreich.
 
 ---
 
@@ -61,7 +61,7 @@ Zwischen 810 und 820 gründete Adalbert von Rätien das [Kanonissenstift Lindau]
 
 ### Reichsstadtzeit
 
-1274/75 bestätigte Rudolf I. die Stadtrechte, Lindau wurde [Freie Reichsstadt](https://de.wikipedia.org/wiki/Freie_und_Reichsst%C3%A4dte). Die Stadt prägte den „Ewigen Pfennig“, war 1376 Mitgründer des [Schwäbischen Städtebunds](https://de.wikipedia.org/wiki/Schw%C3%A4bischer_St%C3%A4dtebund) und veranstaltete 1496/97 den [Reichstag](<https://de.wikipedia.org/wiki/Reichstag_(Heiliges_R%C3%B6misches_Reich)>).
+1274/75 bestätigte Rudolf I. die Stadtrechte, Lindau wurde [Freie Reichsstadt](https://de.wikipedia.org/wiki/Freie_und_Reichsst%C3%A4dte). Die Stadt prägte den „Ewigen Pfennig“, war 1376 Mitgründer des [Schwäbischen Städtebunds](https://de.wikipedia.org/wiki/Schw%C3%A4bischer_St%C3%A4dtebund) und veranstaltete 1496/97 den [Reichstag]().
 
 ### Neuzeit
 
@@ -69,7 +69,7 @@ Zwischen 810 und 820 gründete Adalbert von Rätien das [Kanonissenstift Lindau]
 
 ### 19. Jahrhundert
 
-1803 verlor Lindau seine Reichsfreiheit und wurde bayerisch. 1854 erhielt die Stadt Eisenbahnanschluss über den [Lindauer Eisenbahndamm](<https://de.wikipedia.org/wiki/Eisenbahndamm_(Lindau)>).
+1803 verlor Lindau seine Reichsfreiheit und wurde bayerisch. 1854 erhielt die Stadt Eisenbahnanschluss über den [Lindauer Eisenbahndamm]().
 
 ### 20. und 21. Jahrhundert
 
@@ -97,7 +97,7 @@ Silberner Schild mit grüner Linde; das Motiv verweist auf den Stadtnamen.
 
 ## Städtepartnerschaften
 
-Partnerschaften bestehen mit [Chelles](https://de.wikipedia.org/wiki/Chelles), [Reitnau](https://de.wikipedia.org/wiki/Reitnau), [Lindau (Anhalt-Bitterfeld)](<https://de.wikipedia.org/wiki/Lindau_(Anhalt-Bitterfeld)>) und [Serpuchow](https://de.wikipedia.org/wiki/Serpuchow).
+Partnerschaften bestehen mit [Chelles](https://de.wikipedia.org/wiki/Chelles), [Reitnau](https://de.wikipedia.org/wiki/Reitnau), [Lindau (Anhalt-Bitterfeld)]() und [Serpuchow](https://de.wikipedia.org/wiki/Serpuchow).
 
 ---
 
@@ -109,10 +109,10 @@ Die Altstadt auf der Insel besitzt ein geschlossenes historisches Stadtbild. Die
 
 ### Historische Bauten
 
--   [Altes Rathaus](<https://de.wikipedia.org/wiki/Altes_Rathaus_(Lindau)>) mit Fassade und Ratssaal von 1496/97
+-   [Altes Rathaus]() mit Fassade und Ratssaal von 1496/97
 -   [Mangturm](https://de.wikipedia.org/wiki/Mangturm) als früherer Leuchtturm
 -   Stadtbefestigung mit Resten von Türmen und Bastionen
--   Barockes [Münster Unserer Lieben Frau](<https://de.wikipedia.org/wiki/M%C3%BCnster_Unserer_Lieben_Frau_(Lindau)>)
+-   Barockes [Münster Unserer Lieben Frau]()
 -   Evangelische Stephanskirche und gotische Peterskirche
 
 ---
