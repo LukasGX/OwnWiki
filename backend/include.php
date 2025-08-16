@@ -335,6 +335,7 @@ function getHtml($args, $user) {
             if (isset($magicWords[$word])) {
                 return $magicWords[$word]();  
             }
+            else if ($word == "PAGECONTENTS") return "[[PAGECONTENTS]]";
             return '';
         },
         $args[1]
@@ -360,6 +361,26 @@ function getHtml($args, $user) {
         },
         $dirty_html
     );
+
+    $dirty_html = preg_replace_callback(
+        '/\[\[\s*PAGECONTENTS\s*\]\]/',
+        function () {
+            $page = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
+            $split = explode(":", $page);
+            $namespace = $split[0] ?? '';
+            $pagename = $split[1] ?? '';
+            if ($namespace === '' || $pagename === '') {
+                return 'Error';
+            }
+            $content = @file_get_contents("pages/$namespace/$pagename.md");
+            if ($content === false || $content === null) {
+                return 'Error';
+            }
+            return $content;
+        },
+        $dirty_html
+    );
+
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
     $config->set('HTML.DefinitionRev', 19);

@@ -126,7 +126,7 @@ a::after {
 }
 
 a:hover {
-	color: rgb(0, 111, 230) !important;
+	color: rgb(0, 111, 230);
 }
 
 a:hover::after {
@@ -255,6 +255,18 @@ button:hover {
 	background-repeat: no-repeat;
 	background-size: 100% 3px;
 	background-position: left 100%;
+}
+
+.titlebar a {
+	color: inherit;
+}
+
+.titlebar a:hover {
+	color: inherit !important;
+}
+
+.titlebar a::after {
+	display: none;
 }
 
 .error {
