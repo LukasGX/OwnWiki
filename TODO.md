@@ -11,15 +11,15 @@
 ## Technik & Plattform
 
 -   [ ] WYSWYG Editor integrieren
--   [ ] Suchfunktion implementieren
+-   [ ] Suchfunktion implementieren (mit Autovervollständigung)
 -   [ ] Navigation & UI-Design festlegen (Menüs, Breadcrumbs, responsives Layout)
 -   [ ] Versionierung der Inhalte
--   [ ] Backup- und Exportfunktion hinzufügen (JSON, YAML, XML)
+-   [ ] Backup- und Exportfunktion hinzufügen (JSON, XML)
 -   [ ] Automatisierte Tests für Kernfunktionen einführen
 -   [ ] Seiten löschen
 -   [ ] Benutzerinformationen
 -   [ ] Admin-UI: Matrix (Rollen in Spalten, Rechte in Reihen)
--   [ ] Export und Import
+-   [ ] Import
 -   [ ] Template-Parameter {{{abc}}} (Aufruf mit {{Vorlage|abc=xyz}})
 -   [ ] Zeitlich begrenzte Benutzerrollen
 -   [ ] Kategorie-System (evtl. mit $CATEGORY:ABC$)
@@ -29,7 +29,6 @@
 -   [ ] Benachrichtigungssystem: Push, Email, Benachrichtigungscenter
 -   [ ] Mobile Ansicht
 -   [ ] **Native** mobile App (-> API)
--   [ ] Suchfunktion (mit Autovervollständigung)
 -   [ ] Direkte Kommunikation (Chat mit MD)
 -   [ ] Automatisierte Prüfungen auf Vandalismus o.ä. (mit eigenen Regeln)
 -   [ ] SEO
@@ -37,7 +36,6 @@
 -   [ ] Missbrauchserkennung (Captcha?)
 -   [ ] **Plugins** (Zentrales Hook-System, über Benutzeroberfläche installieren)
 -   [ ] Link-Hover UI Vorschau
--   [ ] Backup für alle Inhalte
 -   [ ] Markieren toter Links
 -   [ ] Erweiterte Suche mit Filtern
 -   [ ] Geplante Seiten
