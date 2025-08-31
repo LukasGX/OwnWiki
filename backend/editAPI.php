@@ -5,6 +5,8 @@ if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+include("../helper/autocheck.php");
+
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
 
@@ -24,8 +26,15 @@ $filename = $split[1];
 $filepathMD = "../pages/$namespace/$filename.md";
 
 if (file_exists($filepathMD)) {
+    $checkResult = autoCheck(file_get_contents($filepathMD), $text);
+    if ($checkResult[0] == "block") {
+        if ($checkResult[2] != "") echo json_encode(["error" => "Not allowed", "rule" => $checkResult[1], "extraInfo" => $checkResult[2]]);
+        else echo json_encode(["error" => "Not allowed", "rule" => $checkResult[1]]);
+        exit;
+    }
+
     file_put_contents($filepathMD, $text);
-    echo json_encode(["success" => ""]);
+    echo json_encode(["success" => "success"]);
 }
 else {
     echo json_encode(["error" => "File not found"]);

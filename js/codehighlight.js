@@ -1,3 +1,19 @@
+function openModal(text, showCloseBtn = true) {
+	const modal = document.createElement("div");
+	modal.classList.add("modal");
+
+	const modalC = document.createElement("div");
+	modalC.classList.add("modal-content");
+	modalC.innerHTML = text;
+
+	const close = document.createElement("i");
+	close.classList.add("fas", "fa-xmark", "close");
+
+	if (showCloseBtn) modalC.appendChild(close);
+	modal.appendChild(modalC);
+	document.body.appendChild(modal);
+}
+
 const textareaElement = document.querySelector(".code");
 const previewButton = document.querySelector(".preview-button");
 const previewOutput = document.querySelector(".code-preview");
@@ -66,6 +82,31 @@ saveButton.addEventListener("click", async function () {
 	}
 
 	const data = await response.json();
-
-	window.location.href = `?f=${encodeURIComponent(titleFromGet)}`;
+	if (data.success) {
+		window.location.href = `?f=${encodeURIComponent(titleFromGet)}`;
+	} else if (data.error) {
+		if (data.error == "Not allowed") {
+			const extraInfo = data.extraInfo ?? "";
+			const info = data.extraInfo ? data.rule + ": " + extraInfo : data.rule;
+			openModal(
+				`
+                <h2>Bearbeitung blockiert</h2>
+                <p>
+                    Die Bearbeitung wurde von einer automatischen Regel blockiert.<br />
+                    Wenn du denkst, das ist ein Fehler, dann melde dich mit folgender Info:
+                </p>
+                <spam class="codeh">${info}</span>
+            `,
+				false
+			);
+		}
+	} else {
+		openModal(
+			`
+            <h2>Fehler</h2>
+            <p>Ein Fehler ist aufgetreten.</p>
+        `,
+			true
+		);
+	}
 });
