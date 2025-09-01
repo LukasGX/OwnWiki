@@ -1,0 +1,14 @@
+{
+	"id": "profanity-detection",
+	"name": "Unangebrachte Sprache",
+	"enabled": true,
+	"pattern": {
+		"type": "wordlist",
+		"check": "tf",
+		"words": ["idiot", "arsch", "scheiße"]
+	},
+	"action": {
+		"type": "warn",
+		"message": "Bitte verwende eine angemessene Ausdrucksweise."
+	}
+}

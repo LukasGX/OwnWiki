@@ -28,6 +28,39 @@ function autoCheck($oldContent, $newContent) {
             }
 
             return ($newLength - $oldLength) / $oldLength;
+        },
+        "wordlist" => function ($wordlist) use (&$newContent) {
+            foreach ($wordlist as $word) {
+                if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $newContent)) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        "capital-ratio" => function () use (&$newContent) {
+            $letters = preg_replace('/[^a-zA-ZäöüÄÖÜß]/u', '', $newContent);
+            $total = mb_strlen($letters);
+
+            if ($total === 0) {
+                return 0.0;
+            }
+
+            preg_match_all('/[A-ZÄÖÜ]/u', $letters, $matches);
+            $caps = count($matches[0]);
+
+            return $caps / $total;
+        },
+        "repeat-word" => function () use (&$newContent) {
+            $words = preg_split('/\W+/u', $newContent, -1, PREG_SPLIT_NO_EMPTY);
+            $frequency = array_count_values($words);
+
+            if (count($frequency) === 0) {
+                $maxCount = 0;
+            } else {
+                $maxCount = max($frequency);
+            }
+
+            return $maxCount;
         }
     ];
 
@@ -43,10 +76,19 @@ function autoCheck($oldContent, $newContent) {
             $pattern = $content["pattern"];
 
             if (array_key_exists($pattern["type"], $pattern_types)) {
-                $result = $pattern_types[$pattern["type"]]();
+                if ($pattern["type"] == "wordlist") $result = $pattern_types[$pattern["type"]]($pattern["words"]);
+                else $result = $pattern_types[$pattern["type"]]();
+
                 if (($pattern["check"] == "gt" && $result >= $pattern["threshold"]) || ($pattern["check"] == "lt" && $result <= $pattern["threshold"])) {
                     $status = $content["action"]["type"];
                     $ruleName = $content["id"];
+                    $extraInfo = $content["action"]["message"] ?? "";
+                    break;
+                }
+                else if ($pattern["check"] == "tf" && $result == true) {
+                    $status = $content["action"]["type"];
+                    $ruleName = $content["id"];
+                    $extraInfo = $content["action"]["message"] ?? "";
                     break;
                 }
                 else continue;

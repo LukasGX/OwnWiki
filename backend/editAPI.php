@@ -32,6 +32,11 @@ if (file_exists($filepathMD)) {
         else echo json_encode(["error" => "Not allowed", "rule" => $checkResult[1]]);
         exit;
     }
+    else if ($checkResult[0] == "warn") {
+        if ($checkResult[2] != "") echo json_encode(["error" => "Warn", "rule" => $checkResult[1], "extraInfo" => $checkResult[2]]);
+        else echo json_encode(["error" => "Warn", "rule" => $checkResult[1]]);
+        exit;
+    }
 
     file_put_contents($filepathMD, $text);
     echo json_encode(["success" => "success"]);

@@ -87,17 +87,34 @@ saveButton.addEventListener("click", async function () {
 	} else if (data.error) {
 		if (data.error == "Not allowed") {
 			const extraInfo = data.extraInfo ?? "";
-			const info = data.extraInfo ? data.rule + ": " + extraInfo : data.rule;
 			openModal(
 				`
                 <h2>Bearbeitung blockiert</h2>
                 <p>
-                    Die Bearbeitung wurde von einer automatischen Regel blockiert.<br />
-                    Wenn du denkst, das ist ein Fehler, dann melde dich mit folgender Info:
+                    Die Bearbeitung wurde von folgender automatischen Regel blockiert: <span class="codeh">${data.rule}</span>
                 </p>
-                <spam class="codeh">${info}</span>
             `,
 				false
+			);
+		} else if (data.error == "Warn") {
+			const extraInfo = data.extraInfo ?? "";
+			openModal(
+				`
+                <h2>Achtung</h2>
+                <p>
+                    Die Bearbeitung verstößt möglicherweise gegen folgende Regel: <span class="codeh">${data.rule}</span><br />
+                    ${extraInfo}
+                </p>
+            `,
+				false
+			);
+		} else {
+			openModal(
+				`
+                <h2>Fehler</h2>
+                <p>Ein Fehler ist aufgetreten.</p>
+            `,
+				true
 			);
 		}
 	} else {

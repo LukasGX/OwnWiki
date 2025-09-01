@@ -1,0 +1,13 @@
+{
+	"id": "keyword-bomb",
+	"name": "Wortwiederholung",
+	"enabled": true,
+	"pattern": {
+		"type": "repeat-word",
+		"check": "gt",
+		"threshold": 60
+	},
+	"action": {
+		"type": "block"
+	}
+}

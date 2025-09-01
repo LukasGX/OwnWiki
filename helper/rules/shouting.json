@@ -1,0 +1,14 @@
+{
+	"id": "shouting",
+	"name": "Zu viel Großschreibung",
+	"enabled": true,
+	"pattern": {
+		"type": "capital-ratio",
+		"check": "gt",
+		"threshold": 0.7
+	},
+	"action": {
+		"type": "warn",
+		"reason": "Benutze nicht zu viele Großbuchstaben."
+	}
+}
