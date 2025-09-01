@@ -1,0 +1,5 @@
+[[NOTOC]]
+
+## Regeln
+
+[[EXISTINGRULESAUTOCHECK]]

@@ -309,6 +309,9 @@ function getHtml($args, $user) {
                 $toReturn = "Log type not found";
             }
             return '<div>' . $toReturn . '</div>';
+        },
+        'EXISTINGRULESAUTOCHECK' => function() {
+            // abc
         }
     ];
 
