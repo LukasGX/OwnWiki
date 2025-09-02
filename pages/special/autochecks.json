@@ -3,5 +3,6 @@
 	"description": "Automatische Prüfungen für Bearbeitungen verwalten",
 	"noControls": true,
 	"accessPermission": "editinterface",
-	"protect": "superprotected"
+	"protect": "superprotected",
+	"isPHP": true
 }

@@ -8,10 +8,27 @@ function openModal(text, showCloseBtn = true) {
 
 	const close = document.createElement("i");
 	close.classList.add("fas", "fa-xmark", "close");
+	close.onclick = function () {
+		this.parentElement.parentElement.remove();
+	};
 
 	if (showCloseBtn) modalC.appendChild(close);
 	modal.appendChild(modalC);
 	document.body.appendChild(modal);
+}
+
+function openWordlistModal(words) {
+	let wordsReadable = "";
+	words.forEach((word) => {
+		wordsReadable += `<li>${word}</li>`;
+	});
+
+	openModal(`
+	<h2>Wortliste</h2>
+	<ul>
+		${wordsReadable}
+	</ul>
+	`);
 }
 
 const textareaElement = document.querySelector(".code");

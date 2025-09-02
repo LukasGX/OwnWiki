@@ -1,7 +1,7 @@
 {
 	"id": "keyword-bomb",
 	"name": "Wortwiederholung",
-	"enabled": true,
+	"enabled": false,
 	"pattern": {
 		"type": "repeat-word",
 		"check": "gt",

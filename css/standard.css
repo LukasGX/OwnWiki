@@ -184,6 +184,9 @@ button:hover {
 }
 
 .codeh {
+	font-family: monospace;
+	font-size: 1rem;
+
 	background-color: rgba(0, 0, 0, 0.1);
 	padding: 1px 4px;
 }
@@ -338,6 +341,37 @@ button:hover {
 	border-radius: 8px;
 
 	margin-bottom: 1rem;
+}
+
+.auto-rule {
+	background-color: #f0f0f0;
+	padding: 1rem;
+	border: 1px solid #cccccc;
+	border-radius: 8px;
+
+	margin-bottom: 1rem;
+}
+
+.auto-rule span {
+	display: block;
+}
+
+.auto-rule span.enabled {
+	color: #1d871a;
+}
+
+.auto-rule span.disabled {
+	color: #b00000;
+}
+
+.auto-rule span:first-of-type {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.auto-rule span:last-of-type {
+	display: inline;
+	font-size: 0.8rem;
 }
 
 /* modal */

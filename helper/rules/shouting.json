@@ -1,6 +1,6 @@
 {
 	"id": "shouting",
-	"name": "Zu viel Großschreibung",
+	"name": "Exzessive Großschreibung",
 	"enabled": true,
 	"pattern": {
 		"type": "capital-ratio",
@@ -9,6 +9,6 @@
 	},
 	"action": {
 		"type": "warn",
-		"reason": "Benutze nicht zu viele Großbuchstaben."
+		"reason": "Vermeide exzessive Großschreibung."
 	}
 }
