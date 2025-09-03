@@ -76,10 +76,10 @@ if (!$user->hasPermission(getAccessPermission($json))) {
         </div>
     </div>
     
-    <script src="js/codehighlight.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="js/sel2.js"></script>
+    <script src="js/codehighlight.js"></script>
 </body>
 </html>
