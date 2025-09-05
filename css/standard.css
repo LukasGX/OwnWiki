@@ -169,18 +169,40 @@ textarea:focus {
 input[type="submit"],
 button {
 	background-color: #2a2cfe;
-	color: white;
+	color: #ffffff;
 	border: none;
 	padding: 0.5rem 1rem;
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 1rem;
+	margin-bottom: 0.5rem;
+
 	transition: 225ms ease;
 }
 
 input[type="submit"]:hover,
 button:hover {
 	background-color: #575afd;
+}
+
+.cancelButton {
+	background-color: rgba(199, 199, 199, 0.5);
+	color: #000000;
+	border: 1px solid #c7c7c7;
+}
+.cancelButton:hover {
+	background-color: #c7c7c7 !important;
+}
+
+.extDeleteButton {
+	background-color: rgba(199, 0, 0, 0.5);
+	color: #000000;
+	border: 1px solid #c70000;
+}
+.extDeleteButton:hover,
+.deleteButton:hover {
+	background-color: #c70000 !important;
+	color: #ffffff;
 }
 
 input[type="submit"].full,

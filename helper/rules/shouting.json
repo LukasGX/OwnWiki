@@ -9,6 +9,6 @@
 	},
 	"action": {
 		"type": "warn",
-		"reason": "Vermeide exzessive Großschreibung."
+		"message": "Vermeide exzessive Großschreibung."
 	}
 }
