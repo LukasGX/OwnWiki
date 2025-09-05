@@ -1,13 +1,13 @@
 {
-	"id": "full-deletion",
-	"name": "Komplette Seitenlöschung",
-	"enabled": true,
-	"pattern": {
-		"type": "diff-length",
-		"check": "lt",
-		"threshold": -0.95
-	},
-	"action": {
-		"type": "block"
-	}
+    "id": "full-deletion",
+    "name": "Komplette Seitenlöschung",
+    "enabled": true,
+    "pattern": {
+        "type": "diff-length",
+        "check": "lt",
+        "threshold": -0.95
+    },
+    "action": {
+        "type": "block"
+    }
 }

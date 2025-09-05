@@ -1,13 +1,13 @@
 {
-	"id": "keyword-bomb",
-	"name": "Wortwiederholung",
-	"enabled": false,
-	"pattern": {
-		"type": "repeat-word",
-		"check": "gt",
-		"threshold": 60
-	},
-	"action": {
-		"type": "block"
-	}
+    "id": "keyword-bomb",
+    "name": "Wortwiederholung",
+    "enabled": false,
+    "pattern": {
+        "type": "repeat-word",
+        "check": "gt",
+        "threshold": 60
+    },
+    "action": {
+        "type": "block"
+    }
 }

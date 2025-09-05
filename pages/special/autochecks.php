@@ -32,7 +32,7 @@ foreach (glob('helper/rules/*.json') as $ruleFile) {
         <span class='codeh'>" . $condition . "</span>
         <div class='btns'>
             <button onclick='editRule(\"" . $content['id'] . "\")'><i class='fas fa-pencil'></i></button>
-            <button onclick='deleteRule(\"" . $content['id'] . "\")'><i class='fas fa-trash'></i></button>
+            <button onclick='deleteRule(\"" . $content['id'] . "\")' class='deleteButton'><i class='fas fa-trash'></i></button>
         </div>
     </div>
     ";
