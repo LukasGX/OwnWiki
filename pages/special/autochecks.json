@@ -1,0 +1,8 @@
+{
+	"title": "Automatische Prüfungen für Bearbeitungen",
+	"description": "Automatische Prüfungen für Bearbeitungen verwalten",
+	"noControls": true,
+	"accessPermission": "editinterface",
+	"protect": "superprotected",
+	"isPHP": true
+}

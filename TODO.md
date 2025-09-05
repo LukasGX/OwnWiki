@@ -6,8 +6,6 @@
 -   [ ] **README** überarbeiten
 -   [ ] Roadmap im Repo dokumentieren
 
----
-
 ## Technik & Plattform
 
 -   [ ] WYSWYG Editor integrieren
@@ -22,7 +20,7 @@
 -   [ ] Import
 -   [ ] Template-Parameter {{{abc}}} (Aufruf mit {{Vorlage|abc=xyz}})
 -   [ ] Zeitlich begrenzte Benutzerrollen
--   [ ] Kategorie-System (evtl. mit $CATEGORY:ABC$)
+-   [ ] Kategorie-System (evtl. mit \$CATEGORY:ABC\$)
 -   [ ] Codeblöcke mit Highlighting
 -   [ ] Verschachtelte Templates (max. Tiefe 1)
 -   [ ] Visuelle Versionsgeschichte
@@ -52,8 +50,6 @@
 -   [ ] Crashkurse (für verschiedene Rollen)
 -   [ ] Speicherung von Suchanfragen als Favoriten
 
----
-
 ## Inhalte
 
 -   [ ] Inhaltsrichtlinien festlegen (neutral, Quellenangaben, Struktur)
@@ -61,15 +57,11 @@
 -   [ ] Kategorien & Tags definieren
 -   [ ] Bilder-/Mediendatei-Handling klären (Upload, Quellenhinweis)
 
----
-
 ## Community & Zusammenarbeit
 
 -   [ ] Feedback-Mechanismus implementieren (Fehler melden, Vorschläge einreichen)
 -   [ ] Moderations- und Qualitätsregeln festlegen
 -   [ ] Regelmäßige Release-Notes dokumentieren
-
----
 
 ## Extras & Zukunft
 

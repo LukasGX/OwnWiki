@@ -1,7 +1,7 @@
 {
-    "title": "Seite erstellen",
-    "description": "Eine neue Seite im Wiki erstellen",
-    "noControls": true,
-    "accessPermission": "createpage",
-    "protect": "superprotected"
+	"title": "Seite erstellen",
+	"description": "Eine neue Seite im Wiki erstellen",
+	"noControls": true,
+	"accessPermission": "createpage",
+	"protect": "superprotected"
 }

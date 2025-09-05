@@ -8,10 +8,48 @@ function openModal(text, showCloseBtn = true) {
 
 	const close = document.createElement("i");
 	close.classList.add("fas", "fa-xmark", "close");
+	close.onclick = function () {
+		this.parentElement.parentElement.remove();
+	};
 
 	if (showCloseBtn) modalC.appendChild(close);
 	modal.appendChild(modalC);
 	document.body.appendChild(modal);
+}
+
+function openWordlistModal(words) {
+	let wordsReadable = "";
+	words.forEach((word) => {
+		wordsReadable += `<li>${word}</li>`;
+	});
+
+	openModal(`
+	<h2>Wortliste</h2>
+	<ul>
+		${wordsReadable}
+	</ul>
+	`);
+}
+
+function editRule(rule) {
+	openModal(`
+	<h2>Regel bearbeiten</h2>
+	<select name='pattern-type' id='select-pattern-type'>
+		<option value='diff-length'>diff-length</option>
+		<option value='wordlist'>wordlist</option>
+		<option value='capital-ratio'>capital-ratio</option>
+		<option value='repeat-word'>repeat-word</option>
+	</select>
+	<select name='pattern-check' id='select-pattern-check'>
+		<option value='gt'>>=</option>
+		<option value='lt'><=</option>
+		<option value='tf'>schlägt an</option>
+	</select>
+	<input type='number' name='pattern-threshold' id='input-pattern-threshold' placeholder='Schwellwert'>
+	<input type='submit' value='Speichern' class='full'>
+	`);
+
+	sel2();
 }
 
 const textareaElement = document.querySelector(".code");
@@ -87,17 +125,34 @@ saveButton.addEventListener("click", async function () {
 	} else if (data.error) {
 		if (data.error == "Not allowed") {
 			const extraInfo = data.extraInfo ?? "";
-			const info = data.extraInfo ? data.rule + ": " + extraInfo : data.rule;
 			openModal(
 				`
                 <h2>Bearbeitung blockiert</h2>
                 <p>
-                    Die Bearbeitung wurde von einer automatischen Regel blockiert.<br />
-                    Wenn du denkst, das ist ein Fehler, dann melde dich mit folgender Info:
+                    Die Bearbeitung wurde von folgender automatischen Regel blockiert: <span class="codeh">${data.rule}</span>
                 </p>
-                <spam class="codeh">${info}</span>
             `,
 				false
+			);
+		} else if (data.error == "Warn") {
+			const extraInfo = data.extraInfo ?? "";
+			openModal(
+				`
+                <h2>Achtung</h2>
+                <p>
+                    Die Bearbeitung verstößt möglicherweise gegen folgende Regel: <span class="codeh">${data.rule}</span><br />
+                    ${extraInfo}
+                </p>
+            `,
+				false
+			);
+		} else {
+			openModal(
+				`
+                <h2>Fehler</h2>
+                <p>Ein Fehler ist aufgetreten.</p>
+            `,
+				true
 			);
 		}
 	} else {

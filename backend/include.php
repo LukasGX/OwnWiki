@@ -65,14 +65,19 @@ function routing() {
     $split = explode(":", $route);
     $namespace = strtolower($split[0]);
     $filename = strtolower($split[1]);
-    $filepath = "pages/$namespace/$filename.md";
 
-    $text = @file_get_contents($filepath) ?? null;
-    if ($text === false || $text === null) {
+    $filepath = "pages/$namespace/$filename.md";
+    $altFilepath = "pages/$namespace/$filename.php";
+
+    $text = @file_get_contents($filepath) ?? false;
+    $altText = @file_get_contents($altFilepath) ?? false;
+    if ($text === false && $altText === false) {
         throw new Exception("404 Not Found");
     }
 
-    return [$route, $text];
+    $right = $text != false ? $text : $altText;
+
+    return [$route, $right];
 }
 
 function genTOC($md) {
@@ -121,7 +126,7 @@ function editLogResults($row) {
     return $gen;
 }
 
-function getHtml($args, $user) {
+function getHtml($args, $user, $json) {
     // converter
     $conv_config = [
         'commonmark' => [
@@ -140,6 +145,14 @@ function getHtml($args, $user) {
     $split = explode(":", $args[0]);
     $namespace = strtolower($split[0]);
     $filename = strtolower($split[1]);
+
+    $data = json_decode($json, true);
+    if (isset($data["isPHP"]) && $data["isPHP"]) {
+        ob_start();
+        include("pages/$namespace/$filename.php");
+        $html = ob_get_clean();
+        return $html;
+    }
 
     // Define Magic Words
     $magicWords = [
@@ -175,12 +188,12 @@ function getHtml($args, $user) {
         },
         'LISTSPECIALPAGES' => function() use (&$user) {
             $gen = "";
-            $files = glob("pages/special/*.md");
+            $files = glob("pages/special/*.json");
             if (empty($files)) {
                 return '';
             }
             foreach ($files as $file) {
-                $filename = basename($file, ".md");
+                $filename = basename($file, ".json");
 
                 $config = @file_get_contents("pages/special/$filename.json");
                 if ($config !== false) {
