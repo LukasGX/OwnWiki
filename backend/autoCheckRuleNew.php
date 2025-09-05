@@ -15,7 +15,7 @@ if (!isset($input['rule-id'])) {
 }
 
 
-$ruleID = htmlspecialchars(strip_tags($input['rule-id']));
+$ruleID = htmlspecialchars(strip_tags($input['rule-id'] ?? ""));
 $ruleName = htmlspecialchars(strip_tags($input['rule-name'] ?? null));
 $active = htmlspecialchars(strip_tags($input['rule-active'] ?? 'false'));
 $type = htmlspecialchars(strip_tags($input['pattern-type'] ?? null));
@@ -30,15 +30,9 @@ if (!is_array($words)) {
 }
 
 $ruleFilePath = __DIR__ . '/../helper/rules/' . $ruleID . '.json';
-if (!file_exists($ruleFilePath)) {
-    http_response_code(404);
-    echo json_encode(["error" => "Rule not found"]);
-    exit;
-}
+$ruleData = [];
 
-$ruleContent = file_get_contents($ruleFilePath);
-$ruleData = json_decode($ruleContent, true);
-
+$ruleData['id'] = $ruleID;
 $ruleData['name'] = $ruleName ?? $ruleID;
 $ruleData['enabled'] = $active === 'true' ? true : false;
 if ($type !== null) $ruleData['pattern']['type'] = $type;

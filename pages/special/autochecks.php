@@ -38,6 +38,6 @@ foreach (glob('helper/rules/*.json') as $ruleFile) {
     ";
 }
 ?>
-<button class="full add-rule-btn" onclick="newRule()"><i class="fas fa-plus"></i></button>
+<button class="full add-rule-btn" onclick="editRule('', true)"><i class="fas fa-plus"></i></button>
 
 <div></div>
