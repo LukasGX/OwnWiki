@@ -28,7 +28,7 @@
 -   [ ] Mobile Ansicht
 -   [ ] **Native** mobile App (-> API)
 -   [ ] Direkte Kommunikation (Chat mit MD)
--   [ ] Automatisierte Prüfungen auf Vandalismus o.ä. (mit eigenen Regeln)
+-   [x] Automatisierte Prüfungen auf Vandalismus o.ä. (mit eigenen Regeln)
 -   [ ] SEO
 -   [ ] Mehrsprachlichkeit (Tabs)
 -   [ ] Missbrauchserkennung (Captcha?)
