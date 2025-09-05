@@ -34,18 +34,18 @@ function openWordlistModal(words) {
 function editRule(rule) {
 	openModal(`
 	<h2>Regel bearbeiten</h2>
-	<select name='pattern-type'>
+	<select name='pattern-type' id='select-pattern-type'>
 		<option value='diff-length'>diff-length</option>
 		<option value='wordlist'>wordlist</option>
 		<option value='capital-ratio'>capital-ratio</option>
 		<option value='repeat-word'>repeat-word</option>
 	</select>
-	<select name='pattern-check'>
+	<select name='pattern-check' id='select-pattern-check'>
 		<option value='gt'>>=</option>
 		<option value='lt'><=</option>
 		<option value='tf'>schlägt an</option>
 	</select>
-	<input type='number' name='pattern-threshold' placeholder='Schwellwert'>
+	<input type='number' name='pattern-threshold' id='input-pattern-threshold' placeholder='Schwellwert'>
 	<input type='submit' value='Speichern' class='full'>
 	`);
 

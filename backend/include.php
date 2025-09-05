@@ -188,12 +188,12 @@ function getHtml($args, $user, $json) {
         },
         'LISTSPECIALPAGES' => function() use (&$user) {
             $gen = "";
-            $files = glob("pages/special/*.md");
+            $files = glob("pages/special/*.json");
             if (empty($files)) {
                 return '';
             }
             foreach ($files as $file) {
-                $filename = basename($file, ".md");
+                $filename = basename($file, ".json");
 
                 $config = @file_get_contents("pages/special/$filename.json");
                 if ($config !== false) {
