@@ -434,6 +434,29 @@ button.full {
 	background-color: rgba(42, 44, 254, 0.3);
 }
 
+.allpagesmenu {
+	background-color: #f0f0f0;
+	padding: 1rem;
+	border: 1px solid #cccccc;
+	border-radius: 8px;
+
+	margin-bottom: 1rem;
+}
+
+.allpagesmenu h2 {
+	margin-top: 0;
+}
+
+.allpages {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.pagination {
+	margin-top: 1rem;
+}
+
 /* modal */
 .modal {
 	width: 100%;

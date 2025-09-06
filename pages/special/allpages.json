@@ -1,0 +1,7 @@
+{
+	"title": "Alle Seiten",
+	"description": "Liste aller Seiten im Wiki",
+	"noControls": true,
+	"accessPermission": "read",
+	"protect": "superprotected"
+}
