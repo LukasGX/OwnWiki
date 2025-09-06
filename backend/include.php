@@ -195,6 +195,10 @@ function getHtml($args, $user, $json) {
             foreach ($files as $file) {
                 $filename = basename($file, ".json");
 
+                if (substr($filename, 0, 2) === "__") {
+                    continue;
+                }
+
                 $config = @file_get_contents("pages/special/$filename.json");
                 if ($config !== false) {
                     $data = json_decode($config, true);
@@ -322,7 +326,103 @@ function getHtml($args, $user, $json) {
                 $toReturn = "Log type not found";
             }
             return '<div>' . $toReturn . '</div>';
-        }
+        },
+        'ALLPAGESMENU' => function() use (&$user) {
+            $setNS = isset($_GET["ns"]) ? htmlspecialchars(strip_tags($_GET["ns"])) : null;
+
+            $namespaces = [["all", "Alle Namensräume"]];
+            foreach (glob("pages/*/__namespace__.json") as $nsFile) {
+                $content = @file_get_contents($nsFile);
+                if ($content === false) continue;
+                $data = json_decode($content, true);
+                $id = $data["id"];
+                $ns = $data["name"];
+                $namespaces[] = [$id, $ns];
+            }
+
+            $toReturn = "
+            <h2>Alle Seiten</h2>
+            <form action='#' method='get'>
+                <input type='hidden' name='f' value='special:allpages'>
+                <select name='ns'>
+                    <option value=''>-- Bitte wählen --</option>
+            ";
+            foreach ($namespaces as $ns) {
+                if ($setNS !== null && $setNS == $ns[0]) {
+                    $toReturn .= "<option value='" . htmlspecialchars($ns[0]) . "' selected>" . htmlspecialchars(ucfirst($ns[1])) . "</option>";
+                    continue;
+                }
+                $toReturn .= "<option value='" . htmlspecialchars($ns[0]) . "'>" . htmlspecialchars(ucfirst($ns[1])) . "</option>";
+            }
+            $toReturn .= "
+                </select>
+                <input type='submit' value='Anzeigen'>
+            </form>
+            ";
+            return '<div class="allpagesmenu">' . $toReturn . '</div>';
+        },
+        'ALLPAGES' => function() use (&$user) {
+            $setNS = isset($_GET["ns"]) ? htmlspecialchars(strip_tags($_GET["ns"])) : null;
+            $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+
+            if ($setNS == "") {
+                return '<div class="allpages">Keine Ergebnisse</div>';
+            }
+
+            $perPage = 50;
+            $gen = "";
+
+            $directory = "pages/" . ($setNS == "all" ? "" : ($setNS . "/"));
+            $allFiles = [];
+
+            if (is_dir($directory)) {
+                $iterator = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS)
+                );
+
+                foreach ($iterator as $fileInfo) {
+                    if ($fileInfo->isFile() && ($fileInfo->getExtension() === 'md' || $fileInfo->getExtension() === 'php')) {
+                        $allFiles[] = $fileInfo->getPathname();
+                    }
+                }
+            }
+
+            usort($allFiles, function($a, $b) {
+                $nameA = basename($a, '.' . pathinfo($a, PATHINFO_EXTENSION));
+                $nameB = basename($b, '.' . pathinfo($b, PATHINFO_EXTENSION));
+                return strcasecmp($nameA, $nameB);
+            });
+
+            if (empty($allFiles)) {
+                return '';
+            }
+
+            $totalFiles = count($allFiles);
+            $totalPages = ceil($totalFiles / $perPage);
+            $offset = ($page - 1) * $perPage;
+            $filesLimited = array_slice($allFiles, $offset, $perPage);
+
+            foreach ($filesLimited as $file) {
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                $filename = htmlspecialchars(basename($file, "." . $ext));
+                $ns = htmlspecialchars(basename(dirname($file)));
+                $gen .= '<div class="allpage"><a href="?f=' . $ns . ':' . $filename . '">' . 
+                        ($setNS == "all" ? ($ns . ":") : "") . 
+                        $filename . '</a></div>';
+            }
+
+            $pagination = '<div class="pagination">';
+            if ($page > 1) {
+                $pagination .= '<a href="?ns=' . urlencode($setNS) . '&page=' . ($page - 1) . '">&laquo; Prev</a> ';
+            }
+            $pagination .= " Seite $page von $totalPages ";
+            if ($page < $totalPages) {
+                $pagination .= '<a href="?ns=' . urlencode($setNS) . '&page=' . ($page + 1) . '">Next &raquo;</a>';
+            }
+            $pagination .= '</div>';
+
+            return '<div class="allpages">' . $gen . '</div>' . $pagination;
+        },
     ];
 
     // Replace Templates
