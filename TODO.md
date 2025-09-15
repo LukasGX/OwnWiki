@@ -49,7 +49,7 @@
 -   [ ] Archivierung von Seiten (Nicht mehr in der Standard-Suche)
 -   [ ] Crashkurse (für verschiedene Rollen)
 -   [ ] Speicherung von Suchanfragen als Favoriten
--   [ ] Liste aller Seiten
+-   [x] Liste aller Seiten
 
 ## Inhalte
 
