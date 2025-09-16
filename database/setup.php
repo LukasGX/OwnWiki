@@ -47,6 +47,18 @@ $creation_commands = [
         userId VARCHAR(30) NOT NULL,
         `target` VARCHAR(300) NOT NULL,
         newVersionId VARCHAR(300) DEFAULT NULL
+    )",
+    "CREATE TABLE IF NOT EXISTS blocks (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        createdAt DATETIME NOT NULL,
+        adminId INT(6) NOT NULL,
+        targetId INT(6) NOT NULL,
+        scope VARCHAR(300) NOT NULL,
+        optCreateAccounts BOOLEAN NOT NULL,
+        optSendEmails BOOLEAN NOT NULL,
+        optOwnDiscussion BOOLEAN NOT NULL,
+        durationUntil DATETIME NOT NULL,
+        reason VARCHAR(3000) NOT NULL
     )"
 ];
 

@@ -423,6 +423,46 @@ function getHtml($args, $user, $json) {
 
             return '<div class="allpages">' . $gen . '</div>' . $pagination;
         },
+        'ALLUSERS' => function() use (&$user) {
+            global $conn;
+
+            $gen = "";
+            $sql = $conn->query("SELECT 
+            u.username,
+            u.firstname,
+            u.lastname,
+            u.email,
+            r.role_name AS roleName,
+            b.id AS isBlocked
+            FROM users u
+            JOIN roles r ON u.role = r.id
+            LEFT JOIN blocks b ON u.id = b.targetId AND (b.durationUntil >= NOW())
+            ORDER BY username ASC");
+            if ($sql && $sql->num_rows > 0) {
+                while($row = $sql->fetch_assoc()) {
+                    $roleName = $row["roleName"] ?? "Unknown";
+                    if (isset($row["isBlocked"])) $block = true;
+                    else $block = false;
+
+                    $gen .= '
+                    <div class="user">
+                        <span class="username">' . htmlspecialchars($row["username"]) . '</span>
+                        <span class="miniinfo">
+                            <span class="name">' . htmlspecialchars($row["firstname"] . ' ' . $row["lastname"]) . '</span>
+                            <span class="role">' . htmlspecialchars($roleName) . '</span>
+                            <span class="email">' . htmlspecialchars($row["email"]) . '</span>
+                        </span>
+                        <span class="tf-indicator blr ' . ($block ? "false" : "true") . '">
+                            ' . ($block ? 'Aktive Sperre' : 'Keine aktive Sperre') . '
+                        </span>
+                    </div>';
+                }
+            }
+            else {
+                $gen = "No users found";
+            }
+            return '<div class="allusers">' . $gen . '</div>';
+        },
     ];
 
     // Replace Templates

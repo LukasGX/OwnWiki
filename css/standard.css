@@ -138,6 +138,7 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 input[type="number"],
+input[type="datetime-local"],
 textarea {
 	width: 100%;
 	padding: 0.5rem;
@@ -153,6 +154,7 @@ input[type="text"]:hover,
 input[type="password"]:hover,
 input[type="email"]:hover,
 input[type="number"]:hover,
+input[type="datetime-local"]:hover,
 textarea:hover {
 	border-color: #2a2cfe;
 }
@@ -161,6 +163,7 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
+input[type="datetime-local"]:focus,
 textarea:focus {
 	border-color: #2a2cfe;
 	box-shadow: 0 0 5px rgba(42, 44, 254, 0.5);
@@ -455,6 +458,151 @@ button.full {
 
 .pagination {
 	margin-top: 1rem;
+}
+
+.user {
+	background-color: #f0f0f0;
+	padding: 1rem;
+	border: 1px solid #cccccc;
+	border-radius: 8px;
+
+	margin-bottom: 1rem;
+}
+
+.user .username {
+	font-size: 1.2rem;
+	font-weight: bold;
+
+	display: block;
+}
+
+.user .miniinfo {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.user .miniinfo span {
+	font-size: 0.9rem;
+
+	display: block;
+}
+
+.tf-indicator {
+	display: inline-block;
+	border-radius: 10px;
+	margin-right: 0.3rem;
+	padding: 0.1rem 0.5rem;
+	background-color: rgba(50, 78, 255, 0.2);
+	color: #ffffff;
+}
+
+.tf-indicator.blr {
+	background-color: rgba(50, 78, 255, 0.2);
+	color: #324eff;
+}
+
+.tf-indicator.true {
+	background-color: #1d871a;
+}
+
+.tf-indicator.blr.true {
+	background-color: rgba(29, 135, 26, 0.2);
+	color: #1d871a;
+}
+
+.tf-indicator.false {
+	background-color: #c70000;
+}
+
+.tf-indicator.blr.false {
+	background-color: rgba(199, 0, 0, 0.2);
+	color: #c70000;
+}
+
+/* flatpickr */
+.flatpickr-calendar {
+	border-radius: 15px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: none;
+	background: white;
+	margin-top: 1rem;
+}
+
+.flatpickr-day {
+	border: 1px solid transparent;
+}
+
+.flatpickr-day:hover {
+	background: rgba(42, 44, 254, 0.2) !important;
+	cursor: pointer;
+}
+
+.flatpickr-day.today {
+	border: 2px dashed rgba(42, 44, 254, 0.2) !important;
+	border-radius: 50%;
+}
+
+.flatpickr-day.today:hover {
+	background: rgba(42, 44, 254, 0.3) !important;
+	color: #000000 !important;
+	border: 2px dashed transparent !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+	background: rgba(42, 44, 254, 0.4) !important;
+	color: #000000 !important;
+	border: 1px solid transparent !important;
+}
+
+.flatpickr-time input {
+	border-radius: 4px;
+	border: 1px solid #cccccc;
+	font-size: 1rem;
+	padding: 4px;
+	outline: none;
+}
+
+.flatpickr-time input:focus {
+	border-color: #2a2cfe;
+	box-shadow: 0 0 5px rgba(42, 44, 254, 0.5);
+}
+
+.flatpickr-time input::-webkit-inner-spin-button,
+.flatpickr-time input::-webkit-outer-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0 !important;
+}
+
+.flatpickr-time input[type="number"] {
+	-moz-appearance: textfield !important;
+}
+
+.flatpickr-time .numInputWrapper .arrowUp,
+.flatpickr-time .numInputWrapper .arrowDown,
+.flatpickr-current-month .numInputWrapper .arrowUp,
+.flatpickr-current-month .numInputWrapper .arrowDown {
+	display: none !important;
+}
+
+.flatpickr-time .numInputWrapper input:focus {
+	box-shadow: none !important;
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+	stroke: #000000;
+}
+
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg {
+	stroke: #2a2cfe;
+}
+
+.flatpickr-current-month .cur-month:hover {
+	background: transparent !important;
+	box-shadow: none !important;
 }
 
 /* modal */
