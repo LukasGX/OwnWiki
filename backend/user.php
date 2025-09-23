@@ -1,18 +1,28 @@
 <?php
 include_once("dbc.php");
 class User {
+    private $id;
     private $username;
     private $firstname;
     private $lastname;
     private $email;
     private $role;
+    private $activeBlock;
+    private $blockData;
 
-    public function __construct($username, $firstname, $lastname, $email, $role) {
+    public function __construct($id, $username, $firstname, $lastname, $email, $role, $activeBlock, $blockData) {
         $this->username = $username;
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->email = $email;
         $this->role = $role;
+        $this->id = $id;
+        $this->activeBlock = $activeBlock;
+        $this->blockData = $blockData;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
     public function getUsername() {
@@ -39,8 +49,14 @@ class User {
         return $this->email;
     }
 
+    public function isBlocked() {
+        return $this->activeBlock;
+    }
+
     public function hasPermission($permission) {
         $conn = $GLOBALS['conn'];
+
+        if ($permission == "dummy") return [true, "dummy"];
 
         $roleHierarchy = [
             1 => [1],
@@ -55,6 +71,17 @@ class User {
 
         $rolesToCheck = $roleHierarchy[$this->role] ?? [$this->role];
 
+        $removeOnBlock = [
+            "edit", "applytags", "editmyoptions", "createpage", "creatediscussion", "editsemiprotected", "minoredit", "upload", "uploadbyurl",
+            "editcontentmodel", "pagelang", "export", "autoconfirmed", "import", "higherapilimits", "bot", "suppressredirect", "editprotected",
+            "move", "movefile", "reupload", "delete", "bigdelete", "block", "blockemail", "browsedeleted", "protect", "rollback", "undelete",
+            "deletetags", "import", "managetags", "higherapilimits", "ipblockbypass", "suppressredirect", "editinterface", "editsitecss",
+            "editsitejs", "editsuperprotected", "userrights", "renameusers", "deletelogentry", "deletehistory", "hideuser", "suppressionlog",
+            "supresshistory", "viewsuppressed", "renameusers"
+        ];
+
+        $pr = ["createAccount", "sendemail"];
+
         $placeholders = implode(',', array_fill(0, count($rolesToCheck), '?'));
         $types = str_repeat('i', count($rolesToCheck));
 
@@ -67,11 +94,14 @@ class User {
             $privileges = json_decode($row['privileges'], true);
 
             if (is_array($privileges) && in_array($permission, $privileges)) {
-                return true;
+                if ($this->isBlocked() && in_array($permission, $removeOnBlock)) {
+                    return [false, "block"];
+                }
+                return [true, "permission"];
             }
         }
 
-        return false;
+        return [false, "nopermission"];
     }
 }
 ?>

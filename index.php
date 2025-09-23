@@ -4,8 +4,8 @@ session_start();
 require 'vendor/autoload.php';
 include_once("backend/include.php");
 include_once("conf-glob/html-titlebar.php");
-include_once("backend/user.php");
 include_once("backend/dbc.php");
+include_once("backend/autouser.php");
 
 $f = isset($_GET["f"]) ? htmlspecialchars(strip_tags($_GET["f"])) : "";
 
@@ -19,39 +19,14 @@ catch (Exception $e) {
 }
 
 // gen user object
-if (isset($_SESSION["username"])) {
-    $username = htmlspecialchars(strip_tags($_SESSION["username"]));
-    $firstname = "";
-    $lastname = "";
-    $email = "";
-    $role = "2"; // default role
+if (isset($_SESSION["id"])) 
+    $user = autoUser($_SESSION["id"], $conn);
+else
+    $user = dummyUser();
 
-    $sql = $conn->prepare("SELECT firstname, lastname, email, `role` FROM users WHERE username = ?");
-    $sql->bind_param("s", $username);
-    $sql->execute();
-    $result = $sql->get_result();
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $firstname = $row["firstname"];
-            $lastname = $row["lastname"];
-            $email = $row["email"];
-            $role = $row["role"];
-        }
-    }
+$userId = $user->getId();
 
-    $user = new User(
-        $username,
-        $firstname,
-        $lastname,
-        $email,
-        $role
-    );
-}
-else {
-    $user = new User("", "", "", "", "1");
-}
-
-if (!$user->hasPermission(getAccessPermission($json))) {
+if (!$user->hasPermission(getAccessPermission($json))[0]) {
     header("Location: ?f=special:403&t=$f&r=" . urlencode(getAccessPermission($json)));
     exit;
 }
@@ -86,6 +61,9 @@ if (!$user->hasPermission(getAccessPermission($json))) {
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
     <!-- own scripts -->
+    <script>
+        const ME_ID = "<?php echo $userId == null ? "": $userId; ?>";
+    </script>
     <script src="js/sel2.js"></script>
     <script src="js/codehighlight.js"></script>
     <script src="js/manipulate_datetime.js"></script>

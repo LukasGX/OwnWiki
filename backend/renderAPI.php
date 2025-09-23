@@ -18,10 +18,10 @@ $text = $input['text'];
 
 require '../vendor/autoload.php';
 include_once("include.php");
-include_once("user.php");
+include_once("autouser.php");
 
 // generate user object
-$user = new User("", "", "", "", "1");
+$user = dummyUser();
 
 $html = getHtml(["dummy:dummy", $text], $user);
 

@@ -1,5 +1,6 @@
 {
-    "title": "Seite schützen",
-    "noControls": true,
-    "protect": "superprotected"
+	"title": "Seite schützen",
+	"noControls": true,
+	"protect": "superprotected",
+	"accessPermission": "protect"
 }

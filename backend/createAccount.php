@@ -38,13 +38,22 @@ $defaultRole = "2";
 $sql = $conn->prepare("INSERT INTO users (username, firstname, lastname, email, `password`, `role`) VALUES (?, ?, ?, ?, ?, ?)");
 $sql->bind_param("ssssss", $username, $firstname, $lastname, $email, $hash, $defaultRole);
 $sql->execute();
+$sql->close();
+
+$id;
+
+$sql = $conn->prepare("SELECT id FROM users WHERE username = ?");
+$sql->bind_param("s", $username);
+$sql->execute();
+$result = $sql->get_result();
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $id = $row["id"];
+    }
+}
 
 // treat as logged in
-$_SESSION["username"] = $username;
-$_SESSION["firstname"] = $firstname;
-$_SESSION["lastname"] = $lastname;
-$_SESSION["email"] = $email;
-$_SESSION["role"] = $defaultRole;
+$_SESSION["id"] = $id;
 header("Location: ../index.php");
 exit;
 ?>
