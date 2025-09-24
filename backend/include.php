@@ -477,6 +477,49 @@ function getHtml($args, $user, $json) {
             }
             return '<div class="allusers">' . $gen . '</div>';
         },
+        'PROTECTIONCHECK' => function() use (&$user, $data, $namespace, $filename) {
+            // If a target page is passed via ?t= (edit page), use that page's JSON to check protection.
+            $target = isset($_GET['t']) ? htmlspecialchars(strip_tags($_GET['t'])) : null;
+            $checkProtect = 'none';
+            $checkNamespace = $namespace;
+            $checkFilename = $filename;
+
+            if ($target) {
+                $parts = explode(':', $target, 2);
+                if (count($parts) === 2 && $parts[0] !== '' && $parts[1] !== '') {
+                    $checkNamespace = strtolower($parts[0]);
+                    $checkFilename = strtolower($parts[1]);
+                    $jsonPath = "pages/{$checkNamespace}/{$checkFilename}.json";
+                    $jsonText = @file_get_contents($jsonPath);
+                    if ($jsonText !== false && $jsonText !== null) {
+                        $j = json_decode($jsonText, true);
+                        if (is_array($j) && isset($j['protect'])) {
+                            $checkProtect = $j['protect'];
+                        }
+                    }
+                }
+            } else {
+                // fallback to current page data if no ?t is provided
+                $checkProtect = $data['protect'] ?? 'none';
+            }
+
+            $rights = [
+                "none" => "edit",
+                "semiprotected" => "editsemiprotected",
+                "protected" => "editprotected",
+                "superprotected" => "editsuperprotected"
+            ];
+
+            $right = $rights[$checkProtect] ?? "edit";
+
+            if (!$user->hasPermission($right)[0]) {
+                // Redirect to 403 showing which page was blocked (use the target if present)
+                $redirectTarget = $target ? $target : ($namespace . ":" . $filename);
+                header("Location: ?f=special:403&t=" . urlencode($redirectTarget) . "&r=" . urlencode($right));
+                exit;
+            }
+            return '';
+        },
     ];
 
     // Replace Templates
