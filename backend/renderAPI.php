@@ -23,7 +23,7 @@ include_once("autouser.php");
 // generate user object
 $user = dummyUser();
 
-$html = getHtml(["dummy:dummy", $text], $user);
+$html = getHtml(["dummy:dummy", $text], $user, null);
 
 echo json_encode([
     "success" => $html

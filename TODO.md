@@ -45,7 +45,7 @@
 -   [ ] Externe Inhalte als Vorschlag von Benutzern, von Admins bestätigt
 -   [ ] Benutzerseiten
 -   [ ] Badges für Benutzer (zentral verwaltet; rein informativ)
--   [ ] Benutzer-Blocking
+-   [x] Benutzer-Blocking
 -   [ ] Archivierung von Seiten (Nicht mehr in der Standard-Suche)
 -   [ ] Crashkurse (für verschiedene Rollen)
 -   [ ] Speicherung von Suchanfragen als Favoriten

@@ -1,4 +1,5 @@
 <?php
+include_once("user.php");
 function autoUser($id, $conn) {
     $username; $firstname; $lastname; $email; $role; $activeBlock;
 
