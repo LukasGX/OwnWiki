@@ -207,111 +207,157 @@ const previewButton = document.querySelector(".preview-button");
 const previewOutput = document.querySelector(".code-preview");
 const saveButton = document.querySelector(".save-button");
 
-previewButton.addEventListener("click", async function () {
-	previewOutput.innerHTML = "<p>Loading...</p>";
+if (previewButton) {
+	previewButton.addEventListener("click", async function () {
+		previewOutput.innerHTML = "<p>Loading...</p>";
 
-	const codeContent = textareaElement.value;
+		const codeContent = textareaElement.value;
 
-	const response = await fetch("backend/renderAPI.php", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ text: codeContent }),
+		const response = await fetch("backend/renderAPI.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ text: codeContent }),
+		});
+		const data = await response.json();
+
+		previewOutput.innerHTML = "";
+
+		if (data.error) {
+			previewOutput.innerHTML = `<p class="error">ERROR: ${data.error}</p>`;
+			return;
+		}
+
+		if (data.success) {
+			previewOutput.innerHTML = data.success;
+		}
 	});
-	const data = await response.json();
+}
 
-	previewOutput.innerHTML = "";
+if (saveButton) {
+	saveButton.addEventListener("click", async function () {
+		const urlParams = new URLSearchParams(window.location.search);
+		const titleFromGet = urlParams.get("t") || "";
+		const filename = urlParams.get("f") || "";
 
-	if (data.error) {
-		previewOutput.innerHTML = `<p class="error">ERROR: ${data.error}</p>`;
-		return;
-	}
+		const codeContent = textareaElement.value;
 
-	if (data.success) {
-		previewOutput.innerHTML = data.success;
-	}
-});
+		let response;
 
-saveButton.addEventListener("click", async function () {
-	const urlParams = new URLSearchParams(window.location.search);
-	const titleFromGet = urlParams.get("t") || "";
-	const filename = urlParams.get("f") || "";
+		if (filename.endsWith("create")) {
+			response = await fetch("backend/saveAPI.php", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					text: codeContent,
+					title: titleFromGet,
+				}),
+			});
+		} else if (filename.endsWith("edit")) {
+			response = await fetch("backend/editAPI.php", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					text: codeContent,
+					title: titleFromGet,
+				}),
+			});
+		} else {
+			console.error(`${filename} doesn't match any!`);
+			return;
+		}
 
-	const codeContent = textareaElement.value;
-
-	let response;
-
-	if (filename.endsWith("create")) {
-		response = await fetch("backend/saveAPI.php", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				text: codeContent,
-				title: titleFromGet,
-			}),
-		});
-	} else if (filename.endsWith("edit")) {
-		response = await fetch("backend/editAPI.php", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				text: codeContent,
-				title: titleFromGet,
-			}),
-		});
-	} else {
-		console.error(`${filename} doesn't match any!`);
-		return;
-	}
-
-	const data = await response.json();
-	if (data.success) {
-		window.location.href = `?f=${encodeURIComponent(titleFromGet)}`;
-	} else if (data.error) {
-		if (data.error == "Not allowed") {
-			const extraInfo = data.extraInfo ?? "";
-			openModal(
-				`
+		const data = await response.json();
+		if (data.success) {
+			window.location.href = `?f=${encodeURIComponent(titleFromGet)}`;
+		} else if (data.error) {
+			if (data.error == "Not allowed") {
+				const extraInfo = data.extraInfo ?? "";
+				openModal(
+					`
                 <h2>Bearbeitung blockiert</h2>
                 <p>
                     Die Bearbeitung wurde von folgender automatischen Regel blockiert: <span class="codeh">${data.rule}</span>
                 </p>
             `,
-				false
-			);
-		} else if (data.error == "Warn") {
-			const extraInfo = data.extraInfo ?? "";
-			openModal(
-				`
+					false
+				);
+			} else if (data.error == "Warn") {
+				const extraInfo = data.extraInfo ?? "";
+				openModal(
+					`
                 <h2>Achtung</h2>
                 <p>
                     Die Bearbeitung verstößt möglicherweise gegen folgende Regel: <span class="codeh">${data.rule}</span><br />
                     ${extraInfo}
                 </p>
             `,
-				false
-			);
-		} else {
-			openModal(
-				`
+					false
+				);
+			} else {
+				openModal(
+					`
                 <h2>Fehler</h2>
                 <p>Ein Fehler ist aufgetreten.</p>
             `,
-				true
-			);
-		}
-	} else {
-		openModal(
-			`
+					true
+				);
+			}
+		} else {
+			openModal(
+				`
             <h2>Fehler</h2>
             <p>Ein Fehler ist aufgetreten.</p>
         `,
-			true
-		);
+				true
+			);
+		}
+	});
+}
+
+// blocking
+const blockBtn = document.getElementById("block-btn");
+blockBtn.addEventListener("click", async function () {
+	console.log("executing!!!");
+
+	const meId = ME_ID;
+	const target = document.getElementById("target").value;
+	const scope = $("#scope").val();
+	const optCreateAccounts = document.getElementById("optCreateAccounts").value;
+	const optSendEmails = document.getElementById("optSendEmails").value;
+	const optOwnDiscussion = document.getElementById("optOwnDiscussion").value;
+	const durationUntil = document.getElementById("datetimePicker").value;
+	const reason = document.getElementById("reason").value;
+
+	console.log(durationUntil);
+
+	const response = await fetch("backend/blockAPI.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			target: target,
+			scope: scope,
+			optCreateAccounts: optCreateAccounts,
+			optSendEmails: optSendEmails,
+			optOwnDiscussion: optOwnDiscussion,
+			durationUntil: durationUntil,
+			reason: reason,
+			meId: meId,
+		}),
+	});
+
+	const data = await response.json();
+
+	if (data.success) {
+		// window.location.href = "?f=special:allusers";
+	} else {
+		console.error("Error while blocking user");
 	}
 });

@@ -22,7 +22,7 @@ function getTitleBar($user, $protectedStatus, $pagename) {
         </div>
         <div class=\"group\">
     ";
-    if ($user->hasPermission($neededPermission)) {
+    if ($user->hasPermission($neededPermission)[0]) {
         $output .= "<span class=\"element\"><a href='?f=special:edit&t=$pagename'><i class=\"fas fa-pen\"></i> Bearbeiten</a></span>";
     } else {
         $output .= "<span class=\"element\"><i class=\"fas fa-code\"></i> Quelltext anzeigen</span>";

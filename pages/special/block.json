@@ -1,0 +1,8 @@
+{
+	"title": "Benutzer sperren",
+	"description": "Benutzer sperren",
+	"noControls": true,
+	"accessPermission": "block",
+	"protect": "superprotected",
+	"isPHP": true
+}

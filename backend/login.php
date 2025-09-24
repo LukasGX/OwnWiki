@@ -20,13 +20,9 @@ if (isset($_POST["username"]) && isset($_POST["pw"])) {
         while($row = $result->fetch_assoc()) {
             $pwFromDB = $row["password"];
             if ($pwFromDB === $hash) {
-                $_SESSION["username"] = $username;
-                $_SESSION["firstname"] = $row["firstname"];
-                $_SESSION["lastname"] = $row["lastname"];
-                $_SESSION["email"] = $row["email"];
-                $_SESSION["role"] = $row["role"];
+                // logged in
+                $_SESSION["id"] = $row["id"];
                 header("Location: ../index.php");
-                exit;
             } else {
                 echo "Wrong password.";
             }

@@ -1,6 +1,7 @@
 {
-    "title": "Kein Zugriff",
-    "noControls": true,
-    "protect": "superprotected",
-    "excludeFromSpecialPagesList": true
+	"title": "Kein Zugriff",
+	"noControls": true,
+	"protect": "superprotected",
+	"excludeFromSpecialPagesList": true,
+	"accessPermission": "dummy"
 }

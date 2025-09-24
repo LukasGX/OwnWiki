@@ -1,0 +1,7 @@
+{
+	"title": "Alle Benutzer",
+	"description": "Liste aller Benutzer im Wiki",
+	"noControls": true,
+	"accessPermission": "read",
+	"protect": "superprotected"
+}

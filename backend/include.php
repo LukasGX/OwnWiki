@@ -3,7 +3,7 @@ use League\CommonMark\CommonMarkConverter;
 
 function getPageContents($page, $user) {
     $template = file_get_contents($page);
-    if (isset($_SESSION["username"])) {
+    if (isset($_SESSION["id"])) {
         $template = str_replace("{loginstatus}", "loggedin", $template);
     } else {
         $template = str_replace("{loginstatus}", "loggedout", $template);
@@ -22,13 +22,25 @@ function getPageContents($page, $user) {
             if (is_readable($filePath)) {
                 $content = file_get_contents($filePath);
 
+                include("dbc.php");
+
                 $magicWords = [
                     'TITLE' => function() {
                         $f = isset($_GET["f"]) ? htmlspecialchars(strip_tags($_GET["f"])) : "";
                         return $f;
                     },
-                    'USERNAME' => function() {
-                        return isset($_SESSION["username"]) ? htmlspecialchars(strip_tags($_SESSION["username"])) : "";
+                    'USERNAME' => function() use ($conn) {
+                        $id = $_SESSION["id"];
+
+                        $sql = $conn->prepare("SELECT username FROM users WHERE id = ?");
+                        $sql->bind_param("s", $id);
+                        $sql->execute();
+                        $result = $sql->get_result();
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                return $row["username"];
+                            }
+                        }
                     },
                 ];
 
@@ -181,7 +193,7 @@ function getHtml($args, $user, $json) {
         'ASKCREATE' => function() use (&$user) {
             $tried = isset($_GET["t"]) ? htmlspecialchars(strip_tags($_GET["t"])) : "";
             $namespace = strtolower(explode(":", $tried)[0]);
-            if ($namespace == "" || $namespace == "special" || $user->hasPermission("createpage") === false) {
+            if ($namespace == "" || $namespace == "special" || $user->hasPermission("createpage")[0] === false) {
                 return '';
             }
             return '<a href="?f=special:create&t=' . urlencode($tried) . '">Seite erstellen</a>';
@@ -224,15 +236,17 @@ function getHtml($args, $user, $json) {
                     }
 
                     if (isset($data['accessPermission']) && !empty($data['accessPermission'])) {
-                        if ($user->hasPermission($data['accessPermission'])) {
+                        $hp = $user->hasPermission($data['accessPermission']);
+                        if ($hp[0]) {
                             $permission = "<span class='hasPermission'><i class='fas fa-check'></i> " . $data["accessPermission"] . "</span>";
                         }
                         else {
                             $permission = "<span class='hasNotPermission'><i class='fas fa-xmark'></i> " . $data["accessPermission"] . "</span>";
+                            if ($hp[1] == "block") $permission .= "<span class='hasNotPermission'>Dieses Recht wurde dir durch eine Sperre entzogen.</span>";
                         }
                     }
                     else {
-                        if ($user->hasPermission('read')) {
+                        if ($user->hasPermission('read')[0]) {
                             $permission = "<span class='hasPermission'><i class='fas fa-check'></i> read</span>";
                         }
                         else {
@@ -244,7 +258,7 @@ function getHtml($args, $user, $json) {
                     $description = "Keine Beschreibung verfügbar.";
                     $title = $filename;
 
-                    if ($user->hasPermission('read')) {
+                    if ($user->hasPermission('read')[0]) {
                         $permission = "<span class='hasPermission'><i class='fas fa-check'></i> read</span>";
                     }
                     else {
@@ -422,6 +436,46 @@ function getHtml($args, $user, $json) {
             $pagination .= '</div>';
 
             return '<div class="allpages">' . $gen . '</div>' . $pagination;
+        },
+        'ALLUSERS' => function() use (&$user) {
+            global $conn;
+
+            $gen = "";
+            $sql = $conn->query("SELECT 
+            u.username,
+            u.firstname,
+            u.lastname,
+            u.email,
+            r.role_name AS roleName,
+            b.id AS isBlocked
+            FROM users u
+            JOIN roles r ON u.role = r.id
+            LEFT JOIN blocks b ON u.id = b.targetId AND (b.durationUntil >= NOW())
+            ORDER BY username ASC");
+            if ($sql && $sql->num_rows > 0) {
+                while($row = $sql->fetch_assoc()) {
+                    $roleName = $row["roleName"] ?? "Unknown";
+                    if (isset($row["isBlocked"])) $block = true;
+                    else $block = false;
+
+                    $gen .= '
+                    <div class="user">
+                        <span class="username">' . htmlspecialchars($row["username"]) . '</span>
+                        <span class="miniinfo">
+                            <span class="name">' . htmlspecialchars($row["firstname"] . ' ' . $row["lastname"]) . '</span>
+                            <span class="role">' . htmlspecialchars($roleName) . '</span>
+                            <span class="email">' . htmlspecialchars($row["email"]) . '</span>
+                        </span>
+                        <span class="tf-indicator blr ' . ($block ? "false" : "true") . '">
+                            ' . ($block ? 'Aktive Sperre' : 'Keine aktive Sperre') . '
+                        </span>
+                    </div>';
+                }
+            }
+            else {
+                $gen = "No users found";
+            }
+            return '<div class="allusers">' . $gen . '</div>';
         },
     ];
 
