@@ -562,7 +562,7 @@ function getHtml($args, $user, $json) {
                 }
                 return $content;
             } else {
-                return 'File not found: ' . htmlspecialchars($templatePath);
+                return 'Template not found: ' . htmlspecialchars($templateName);
             }
         },
         $args[1]
