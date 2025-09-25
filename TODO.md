@@ -50,6 +50,7 @@
 -   [ ] Crashkurse (für verschiedene Rollen)
 -   [ ] Speicherung von Suchanfragen als Favoriten
 -   [x] Liste aller Seiten
+-   [ ] Kommentare an einzelne Artikel/Abschnitte
 
 ## Inhalte
 
