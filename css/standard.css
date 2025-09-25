@@ -490,6 +490,16 @@ button.full {
 	display: block;
 }
 
+/* SLA */
+.sla {
+	background-color: rgba(255, 0, 0, 0.1);
+	border: 2px solid #c70000;
+	border-radius: 8px;
+	padding: 1rem;
+	margin-bottom: 1rem;
+}
+
+/* Error 403 */
 .err403 {
 	background-color: rgba(255, 0, 0, 0.3);
 	padding: 3rem;

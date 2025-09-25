@@ -522,14 +522,45 @@ function getHtml($args, $user, $json) {
         },
     ];
 
-    // Replace Templates
+    // Helper function to parse template parameters (positional and named)
+    function parseTemplateParams($paramString) {
+        $params = [];
+        $named = [];
+        $parts = explode('|', $paramString);
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if (strpos($part, '=') !== false) {
+                list($key, $value) = explode('=', $part, 2);
+                $named[trim($key)] = trim($value);
+            } else {
+                $params[] = $part;
+            }
+        }
+        return [$params, $named];
+    }
+
+    // Replace Templates (support {{TemplateName}}, {{TemplateName|param1|param2}}, {{TemplateName|foo=bar}})
     $args[1] = preg_replace_callback(
-        '/{{\s*([A-Za-z0-9_]+)\s*}}/',
+        '/(?<!{){{\s*([A-Za-z0-9_]+)(?:\|([^}]*))?\s*}}(?!})/',
         function ($matches) {
             $templateName = $matches[1];
-            $templatePath = 'pages/Template/' . strtolower($templateName) . '.md';
+            $params = [];
+            $named = [];
+            if (isset($matches[2])) {
+                list($params, $named) = parseTemplateParams($matches[2]);
+            }
+            $templatePath = 'pages/template/' . strtolower($templateName) . '.md';
             if (file_exists($templatePath)) {
-                return file_get_contents($templatePath);
+                $content = file_get_contents($templatePath);
+                // Replace positional params: {{{1}}}, {{{2}}}, ...
+                foreach ($params as $idx => $param) {
+                    $content = str_replace('{{{' . ($idx + 1) . '}}}', $param, $content);
+                }
+                // Replace named params: {{{paramName}}}
+                foreach ($named as $key => $value) {
+                    $content = str_replace('{{{' . $key . '}}}', $value, $content);
+                }
+                return $content;
             } else {
                 return 'File not found: ' . htmlspecialchars($templatePath);
             }
