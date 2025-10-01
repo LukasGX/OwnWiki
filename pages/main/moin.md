@@ -1,5 +1,3 @@
-[[NOTOC]]
-
 # Moin
 
 {{sla|Unsinn}}

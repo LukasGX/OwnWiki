@@ -166,6 +166,12 @@ function getHtml($args, $user, $json) {
         return $html;
     }
 
+    $validate = true;
+
+    if (isset($data["NO-VALIDATION"]) && $data["NO-VALIDATION"] === true) {
+        $validate = false;
+    }
+
     // Define Magic Words
     $magicWords = [
         'NOTOC' => function() use (&$generateTOC) {
@@ -540,9 +546,14 @@ function getHtml($args, $user, $json) {
     }
 
     // Replace Templates (support {{TemplateName}}, {{TemplateName|param1|param2}}, {{TemplateName|foo=bar}})
+    // If a template has a corresponding JSON file with "NO-VALIDATION": true, we
+    // render that template to HTML separately and embed it as a base64 placeholder
+    // inside a div with class 'ownwiki-raw'. After HTMLPurifier runs we decode those
+    // placeholders back into raw HTML so ONLY the included template bypasses purification.
+    $rawPlaceholderClass = 'ownwiki-raw';
     $args[1] = preg_replace_callback(
-        '/(?<!{){{\s*([A-Za-z0-9_]+)(?:\|([^}]*))?\s*}}(?!})/',
-        function ($matches) {
+        '/(?<!{){{\s*([A-Za-z0-9_!]+)(?:\|([^}]*))?\s*}}(?!})/',
+        function ($matches) use ($converter, $rawPlaceholderClass) {
             $templateName = $matches[1];
             $params = [];
             $named = [];
@@ -550,6 +561,7 @@ function getHtml($args, $user, $json) {
                 list($params, $named) = parseTemplateParams($matches[2]);
             }
             $templatePath = 'pages/template/' . strtolower($templateName) . '.md';
+            $templateJsonPath = 'pages/template/' . strtolower($templateName) . '.json';
             if (file_exists($templatePath)) {
                 $content = file_get_contents($templatePath);
                 // Replace positional params: {{{1}}}, {{{2}}}, ...
@@ -560,6 +572,23 @@ function getHtml($args, $user, $json) {
                 foreach ($named as $key => $value) {
                     $content = str_replace('{{{' . $key . '}}}', $value, $content);
                 }
+
+                // If the template has a JSON config that requests NO-VALIDATION,
+                // render the template separately and embed it as base64 inside a div.
+                if (file_exists($templateJsonPath)) {
+                    $meta = @file_get_contents($templateJsonPath);
+                    if ($meta !== false) {
+                        $mdata = json_decode($meta, true);
+                        if (is_array($mdata) && isset($mdata['NO-VALIDATION']) && $mdata['NO-VALIDATION'] === true) {
+                            // convert template markdown to HTML (do NOT purify)
+                            $rendered = $converter->convertToHtml($content);
+                            $b64 = base64_encode($rendered);
+                            // embed as HTML so CommonMark (with html_input=allow) will pass it through
+                            return '<div class="' . $rawPlaceholderClass . '">' . $b64 . '</div>';
+                        }
+                    }
+                }
+
                 return $content;
             } else {
                 return 'Template not found: ' . htmlspecialchars($templateName);
@@ -624,7 +653,7 @@ function getHtml($args, $user, $json) {
 
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 19);
+    $config->set('HTML.DefinitionRev', 24);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea,select,option');
@@ -642,9 +671,11 @@ function getHtml($args, $user, $json) {
         'text-align',
         'margin',
         'padding',
-        'border'
+        'border',
+        'height'
     ]);
     $config->set('CSS.AllowImportant', false); // no !important
+    $config->set('CSS.AllowTricky', true);
 
     if (($def = $config->maybeGetRawHTMLDefinition()) && $namespace == "special") {
         $def->addElement('input', 'Inline', 'Empty', 'Common', [
@@ -676,9 +707,21 @@ function getHtml($args, $user, $json) {
     $purifier = new HTMLPurifier($config);
     $clean_html = $purifier->purify($dirty_html);
 
+    // After purification, replace our raw placeholders with their decoded HTML.
+    // This ensures only included templates that requested NO-VALIDATION bypass purifier.
+    $clean_html = preg_replace_callback(
+        '/<div class="ownwiki-raw">\s*([A-Za-z0-9+\/=]+)\s*<\/div>/i',
+        function ($m) {
+            $decoded = base64_decode($m[1]);
+            if ($decoded === false) return '';
+            return $decoded;
+        },
+        $clean_html
+    );
+
     $toc = $generateTOC == true ? genTOC($args[1]) : "";
 
-    return $toc . $clean_html;
+    return !$validate ? $toc . $dirty_html : $toc . $clean_html;
 }
 
 function getJSON($args) {
