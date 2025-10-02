@@ -567,11 +567,30 @@ function getHtml($args, $user, $json) {
                 // Replace positional params: {{{1}}}, {{{2}}}, ...
                 foreach ($params as $idx => $param) {
                     $content = str_replace('{{{' . ($idx + 1) . '}}}', $param, $content);
+                    // also support default syntax {{{1|default}}}
+                    $content = preg_replace_callback('/{{{' . ($idx + 1) . '\|([^}]+)}}}/', function($m) use ($param) {
+                        return ($param !== null && $param !== '') ? $param : $m[1];
+                    }, $content);
                 }
-                // Replace named params: {{{paramName}}}
+                // Replace named params: {{{paramName}}} and named defaults {{{paramName|default}}}
                 foreach ($named as $key => $value) {
                     $content = str_replace('{{{' . $key . '}}}', $value, $content);
+                    $content = preg_replace_callback('/{{{' . preg_quote($key, '/') . '\|([^}]+)}}}/', function($m) use ($value) {
+                        return ($value !== null && $value !== '') ? $value : $m[1];
+                    }, $content);
                 }
+                // For placeholders that weren't replaced because the caller omitted them,
+                // support default values inline like {{{1|Preset}}} or {{{name|Preset}}}.
+                $content = preg_replace_callback('/{{{\s*([0-9]+)\s*\|\s*([^}]+)\s*}}}/', function($m) use ($params) {
+                    $index = (int)$m[1] - 1;
+                    $val = $params[$index] ?? '';
+                    return ($val !== null && $val !== '') ? $val : $m[2];
+                }, $content);
+                $content = preg_replace_callback('/{{{\s*([A-Za-z0-9_\-]+)\s*\|\s*([^}]+)\s*}}}/', function($m) use ($named) {
+                    $key = $m[1];
+                    $val = $named[$key] ?? '';
+                    return ($val !== null && $val !== '') ? $val : $m[2];
+                }, $content);
 
                 // If the template has a JSON config that requests NO-VALIDATION,
                 // render the template separately and embed it as base64 inside a div.
@@ -653,7 +672,7 @@ function getHtml($args, $user, $json) {
 
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.DefinitionID', 'custom-def-1');
-    $config->set('HTML.DefinitionRev', 24);
+    $config->set('HTML.DefinitionRev', 26);
     // Configuration for HTMLPurifier
     if ($namespace == "special") {
         $config->set('HTML.Allowed', 'div,i,h2,h3,h4,h5,h6,p,span,ul,ol,li,a,strong,em,br,img,table,tr,td,th,form,input,button,textarea,select,option');
@@ -672,7 +691,9 @@ function getHtml($args, $user, $json) {
         'margin',
         'padding',
         'border',
-        'height'
+        'height',
+        'font-size',
+        'font-weight'
     ]);
     $config->set('CSS.AllowImportant', false); // no !important
     $config->set('CSS.AllowTricky', true);

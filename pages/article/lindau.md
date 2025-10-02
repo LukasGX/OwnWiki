@@ -1,4 +1,4 @@
-{{!!!|Achtung}}
+{{Erledigt}}
 
 **Lindau (Bodensee)** ist eine deutsche [Mittelstadt](https://de.wikipedia.org/wiki/Mittelstadt) im Südwesten von [Bayern](https://de.wikipedia.org/wiki/Bayern).
 
