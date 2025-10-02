@@ -1,0 +1,1 @@
+<div style="display: flex;"><img src="upload/fr-{{{symbolcolor|schwarz}}}.svg" alt="Fragezeichen-Symbol" style="height: {{{size|40}}}px"> <span style="display: flex; align-items: center; color: {{{textcolor|#000000}}}">{{{1}}}</span></div>

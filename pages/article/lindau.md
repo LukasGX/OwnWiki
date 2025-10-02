@@ -1,5 +1,3 @@
-{{Erledigt}}
-
 **Lindau (Bodensee)** ist eine deutsche [Mittelstadt](https://de.wikipedia.org/wiki/Mittelstadt) im Südwesten von [Bayern](https://de.wikipedia.org/wiki/Bayern).
 
 Der historische Stadtkern der ehemaligen [Reichsstadt](https://de.wikipedia.org/wiki/Freie_und_Reichsst%C3%A4dte) mit der [Maximilianstraße (Lindau)]() im Zentrum liegt auf einer Insel im östlichen Teil des [Bodensees](https://de.wikipedia.org/wiki/Bodensee). Die Insel ist durch eine Straßenbrücke und den [Lindauer Eisenbahndamm]() mit den Stadtteilen auf dem Festland verbunden.

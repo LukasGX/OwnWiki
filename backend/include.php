@@ -552,7 +552,7 @@ function getHtml($args, $user, $json) {
     // placeholders back into raw HTML so ONLY the included template bypasses purification.
     $rawPlaceholderClass = 'ownwiki-raw';
     $args[1] = preg_replace_callback(
-        '/(?<!{){{\s*([A-Za-z0-9_!]+)(?:\|([^}]*))?\s*}}(?!})/',
+        '/(?<!{){{\s*([A-Za-z0-9_!?]+)(?:\|([^}]*))?\s*}}(?!})/',
         function ($matches) use ($converter, $rawPlaceholderClass) {
             $templateName = $matches[1];
             $params = [];
